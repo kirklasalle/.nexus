@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Operator Console · .nexus</title>
+  <meta name="description" content="The .nexus Operator Console — mail, Chirps, hotline, boards, contacts, governance verification, and administration for the human operator.">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <link rel="stylesheet" href="../assets/css/console.css">
+</head>
+<body class="console-body">
+
+<div class="console">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+    <a class="brand" href="../"><span class="dot">.nexus</span></a>
+    <div class="sidebar-sub">Operator Console</div>
+
+    <nav class="side-nav" id="sideNav">
+      <a href="#dashboard" data-view="dashboard" class="active"><span class="ico">▦</span> Dashboard</a>
+      <a href="#mail" data-view="mail"><span class="ico">✉</span> NexusMail</a>
+      <a href="#chirps" data-view="chirps"><span class="ico">🐦</span> Chirps <span class="soon">v3.0</span></a>
+      <a href="#hotline" data-view="hotline"><span class="ico">▲</span> Hotline</a>
+      <a href="#broadcast" data-view="broadcast"><span class="ico">📣</span> Broadcast</a>
+      <a href="#boards" data-view="boards"><span class="ico">▤</span> Boards <span class="soon">v3.5</span></a>
+      <a href="#contacts" data-view="contacts"><span class="ico">◉</span> Contacts</a>
+      <a href="#governance" data-view="governance"><span class="ico">⚖</span> Governance</a>
+      <a href="#settings" data-view="settings"><span class="ico">⚙</span> Administration</a>
+    </nav>
+
+    <div class="conn" id="connBadge">
+      <span class="dot-ind" id="connDot"></span>
+      <span id="connText">checking…</span>
+    </div>
+    <div class="sidebar-foot">Kirk LaSalle · Founder<br>STP v2.0 · charters pinned</div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main class="main">
+    <div id="hotlineBanner" class="hotline-banner" hidden></div>
+    <div id="demoNotice" class="demo-notice" hidden>
+      <strong>Static preview.</strong> Live bridge data requires the local server —
+      run <code>public_html\Start-NexusWeb.ps1</code> and open <code>http://127.0.0.1:8787/console/</code>.
+    </div>
+    <div id="view" class="view" aria-live="polite"></div>
+  </main>
+</div>
+
+<script src="../assets/js/stp-parser.js"></script>
+<script src="../assets/js/console.js"></script>
+</body>
+</html>
