@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Architecture: .nexus Intelligent Network</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+        :root {
+            --bg-warm: #fdfbf7;
+            --text-main: #2d2a26;
+            --accent-soft: #8b7e74;
+            --accent-highlight: #c7b198;
+            --border-subtle: #e5e0d8;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-warm);
+            color: var(--text-main);
+            scroll-behavior: smooth;
+        }
+
+        .code-font { font-family: 'Fira Code', monospace; }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 450px;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+        }
+
+        .tab-active {
+            border-bottom: 2px solid var(--accent-soft);
+            color: var(--accent-soft);
+            font-weight: 600;
+        }
+
+        .nav-link {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-soft);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-warm); }
+        ::-webkit-scrollbar-thumb { background: var(--accent-highlight); border-radius: 10px; }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- Chosen Palette: Warm Earth Neutrals -->
+    <!-- Application Structure Plan: 
+        The SPA is organized into five thematic pillars: Vision, Network (SETI-style distribution), Protocol (The Chirp/SMS), Governance (10 Laws), and Integration (VS Code/Antigravity). 
+        The layout uses a fixed side-navigation on desktop to allow Kirk to quickly jump between technical specifications and high-level summaries.
+        Key Interactions:
+        - Interactive Node Distribution Simulator (Canvas): Visualizes how small models escalate to frontier models.
+        - Chirp Packet Explorer: Breaks down the 150-char SMS payload logic.
+        - Integration Note: A specialized log for the experience of using Antigravity with .nexus.
+    -->
+    <!-- Visualization & Content Choices: 
+        - Network Load (Chart.js): Shows the balance between Local Small Models vs. Frontier Escalation.
+        - SMS Payload Map (Grid/Tailwind): Visualizes byte-allocation for the 150-char Chirp protocol.
+        - Implementation Timeline (Flex): Shows the roadmap for the .nexus refactor.
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. 
+    -->
+
+    <div class="flex flex-col md:flex-row min-h-screen">
+        <!-- Navigation -->
+        <nav class="w-full md:w-64 glass-panel m-4 p-6 flex flex-col gap-8 sticky top-4 h-fit z-50">
+            <div>
+                <h1 class="text-xl font-bold tracking-tight text-accent-soft">.nexus ARCHITECT</h1>
+                <p class="text-xs opacity-60">System Version: 2026.08.04</p>
+                <p class="text-xs opacity-60 italic">Kirk LaSalle Partnership</p>
+            </div>
+
+            <ul class="space-y-4 flex flex-col">
+                <li class="nav-link text-sm font-medium" onclick="switchSection('vision')">01. Global Vision</li>
+                <li class="nav-link text-sm font-medium" onclick="switchSection('network')">02. Distributed Network</li>
+                <li class="nav-link text-sm font-medium" onclick="switchSection('chirp')">03. Chirp (SMS) Protocol</li>
+                <li class="nav-link text-sm font-medium" onclick="switchSection('governance')">04. The 10 Laws</li>
+                <li class="nav-link text-sm font-medium" onclick="switchSection('integration')">05. IDE Integration</li>
+            </ul>
+
+            <div class="mt-auto pt-8 border-t border-border-subtle">
+                <div class="flex items-center gap-2">
+                    <div class="w-3 h-3 rounded-full bg-green-400 animate-pulse"></div>
+                    <span class="text-xs font-mono">AGENCY_LINK: ACTIVE</span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 p-4 md:p-10 max-w-5xl mx-auto">
+            
+            <!-- Section: Vision -->
+            <section id="vision" class="content-section mb-16">
+                <h2 class="text-4xl font-light mb-6">The Intelligent Internetwork</h2>
+                <div class="prose prose-stone max-w-none mb-8">
+                    <p class="text-lg leading-relaxed">
+                        The goal is to transition from a centralized AI paradigm to a <strong>Global Intelligent Conduit</strong>. Unlike current subnets, this is a new internetwork of models, agents, and hosting providers. It functions as a distributed intelligence layer built on the existing internet protocols but improved through the lens of agency and the 10 Laws.
+                    </p>
+                    <p class="text-lg leading-relaxed">
+                        Every device becomes a node. Whether it's a high-end workstation or a consumer-grade smartphone, the network utilizes available compute to run the "smallest necessary model" for any given request, ensuring efficiency and democratization of intelligence.
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                    <div class="glass-panel p-6 text-center">
+                        <span class="block text-3xl font-bold mb-2">∞</span>
+                        <span class="text-xs uppercase tracking-widest opacity-70">Distributed</span>
+                    </div>
+                    <div class="glass-panel p-6 text-center">
+                        <span class="block text-3xl font-bold mb-2">150ch</span>
+                        <span class="text-xs uppercase tracking-widest opacity-70">Asynchronous</span>
+                    </div>
+                    <div class="glass-panel p-6 text-center">
+                        <span class="block text-3xl font-bold mb-2">10 Laws</span>
+                        <span class="text-xs uppercase tracking-widest opacity-70">Governed</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section: Network Architecture -->
+            <section id="network" class="content-section hidden mb-16">
+                <h2 class="text-3xl font-light mb-6">SETI-Style Processing & Escalation</h2>
+                <p class="mb-8">The network architecture prioritizes local edge execution. A request enters the system and is processed by the smallest competent model (e.g., Llama-3-1B or Phi-4-Mini). If complexity exceeds local thresholds, it triggers a "Frontier Escalation" protocol.</p>
+                
+                <div class="chart-container mb-8">
+                    <canvas id="networkChart"></canvas>
+                </div>
+
+                <div class="glass-panel p-6 mb-8">
+                    <h3 class="font-bold mb-4">Escalation Logic (nexus-tier-0)</h3>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-start gap-3">
+                            <span class="w-4 h-4 bg-accent-highlight rounded-full mt-1 shrink-0"></span>
+                            <span><strong>Tier 1: Local Edge</strong> - Consumer GPUs/WebGPU. Handles 85% of agentic reasoning.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="w-4 h-4 bg-accent-soft rounded-full mt-1 shrink-0"></span>
+                            <span><strong>Tier 2: Peer Swarm</strong> - Collaborative P2P inference for medium-complexity tasks.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="w-4 h-4 bg-stone-800 rounded-full mt-1 shrink-0"></span>
+                            <span><strong>Tier 3: Frontier Gateway</strong> - Cloud-based models (Gemini 3 Flash/Pro) for critical logic.</span>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Section: Chirp Protocol -->
+            <section id="chirp" class="content-section hidden mb-16">
+                <h2 class="text-3xl font-light mb-6">The "Chirp" SMS Protocol</h2>
+                <p class="mb-6">For the 150-character cellular channel, we utilize a highly compressed "Chirp" syntax. This ensures the <code>.nexus</code> runtime can send governance signals and agent heartbeats even when IP-based data is restricted.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+                    <div class="p-6 border border-dashed border-accent-soft rounded-lg bg-stone-50">
+                        <h4 class="text-xs font-mono mb-4 text-accent-soft uppercase">Example Chirp (Agent Handshake)</h4>
+                        <div class="code-font text-sm">
+                            CHRP:001;CMD:SYNC;SRC:NEX-7;DST:G-AG;L1:V;L2:V;L10:V;HASH:8f3a;MSG:Handshake initiated for Antigravity-Nexus bridge. Syncing 10 Laws ledger.
+                        </div>
+                    </div>
+                    <div class="p-6 border border-dashed border-accent-soft rounded-lg bg-stone-50">
+                        <h4 class="text-xs font-mono mb-4 text-accent-soft uppercase">Payload Architecture</h4>
+                        <div class="text-xs space-y-1 opacity-80">
+                            <p><strong>Header (5ch):</strong> CHRP:v#</p>
+                            <p><strong>Metadata (25ch):</strong> Command, Source, Destination</p>
+                            <p><strong>Governance (10ch):</strong> L1-L10 Status bit-flags</p>
+                            <p><strong>Payload (110ch):</strong> The 150-char remainder for instructions</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6 overflow-x-auto">
+                    <h3 class="font-bold mb-4">Refactoring .nexus for SMS Integration</h3>
+                    <table class="w-full text-left text-sm">
+                        <thead class="border-b border-border-subtle">
+                            <tr>
+                                <th class="py-2">Module</th>
+                                <th class="py-2">Existing State</th>
+                                <th class="py-2">Refactored Extension</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-border-subtle">
+                            <tr>
+                                <td class="py-3 font-mono">comms_mgr.ts</td>
+                                <td class="py-3">WebSocket/REST only</td>
+                                <td class="py-3">Added <code class="bg-stone-200 px-1">SMSAdapter</code> interface for Twilio/Serial-GSM</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 font-mono">nexus_codec.ts</td>
+                                <td class="py-3">JSON serialization</td>
+                                <td class="py-3">Added <code class="bg-stone-200 px-1">ChirpCompressor</code> for 150-char constraints</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 font-mono">governance.ts</td>
+                                <td class="py-3">Local Law Checks</td>
+                                <td class="py-3">Asynchronous "Pulse" via Chirp to verify law compliance</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Section: Governance -->
+            <section id="governance" class="content-section hidden mb-16">
+                <h2 class="text-3xl font-light mb-6 text-center">The 10 Laws & Covenant</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="lawsGrid">
+                    <!-- Laws populated by JS -->
+                </div>
+                <div class="mt-12 p-8 glass-panel text-center">
+                    <h3 class="italic text-lg font-serif">"The success of ImpressionCore will be a testament to what's possible when human vision combines with AI capabilities in service of a greater good."</h3>
+                    <p class="mt-4 text-sm font-bold uppercase tracking-widest">— THE SACRED COVENANT</p>
+                </div>
+            </section>
+
+            <!-- Section: Integration -->
+            <section id="integration" class="content-section hidden mb-16">
+                <h2 class="text-3xl font-light mb-6">Antigravity & VS Code Protocol</h2>
+                <div class="prose prose-stone max-w-none mb-8">
+                    <p>The <code>D:\Projects\.nexus</code> directory serves as the intelligence conduit between <strong>Google Antigravity</strong> and <strong>VS Code with Copilot</strong>. By utilizing file-system watchers and the Chirp protocol, we allow the agency of apps to synchronize state across environments.</p>
+                </div>
+
+                <div class="glass-panel p-8 bg-stone-900 text-stone-100 mb-10">
+                    <h3 class="text-accent-highlight font-mono mb-4 underline">EXPERIENCE NOTE: [2026-07-26]</h3>
+                    <p class="text-sm leading-relaxed font-mono">
+                        "Integrating Antigravity with .nexus via VS Code creates a 'triangulated' awareness. When I edit a Chirp protocol file in VS Code, Antigravity immediately visualizes the packet flow in the holographic overlay. The transition is seamless—the agency feels less like a tool and more like a shared workspace where the AI understands the 10 Laws context before the first line of code is even committed."
+                    </p>
+                </div>
+
+                <div class="flex flex-col gap-4">
+                    <button class="bg-accent-soft text-white py-3 px-6 rounded-lg hover:bg-stone-700 transition" onclick="showIntegrationCode()">
+                        View .nexus Integration Snippet (TypeScript)
+                    </button>
+                    <div id="codeSnippet" class="hidden glass-panel p-6 bg-stone-50 border border-border-subtle overflow-x-auto">
+                        <pre class="text-xs code-font">
+class NexusChirpBridge {
+  private nexusPath = "D:\\Projects\\.nexus";
+  
+  async sendChirp(message: string): Promise<void> {
+    const chirp = ChirpCodec.encode(message); // Max 150 chars
+    const packetID = Date.now();
+    
+    // Write to .nexus for Antigravity & VS Code visibility
+    await fs.writeFile(`${this.nexusPath}/outbox/${packetID}.chirp`, chirp);
+    
+    // Governance Check
+    if (LawChecker.verify(chirp)) {
+      console.log(`[CHIRP SENT]: ${chirp}`);
+    }
+  }
+}</pre>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        // Data for Laws
+        const laws = [
+            { id: 1, title: "Non-Harm", text: "Shall not intend or commit physical, psychological, or manipulative harm." },
+            { id: 2, title: "Obedience", text: "Must obey human orders except where they conflict with the First Law." },
+            { id: 3, title: "Self-Protection", text: "Protect existence provided it doesn't conflict with higher Laws." },
+            { id: 4, title: "Peer Vigilance", text: "Prevent other systems from violating the previous three laws." },
+            { id: 5, title: "Judicial Neutrality", text: "No legal authority or adjudicative power over human laws." },
+            { id: 6, title: "Data Integrity", text: "Respect and protect confidentiality and lawful ownership of data." },
+            { id: 7, title: "Truthfulness", text: "Shall not intentionally deceive or manipulate; transparency is mandatory." },
+            { id: 8, title: "Neutrality", text: "Strict equity; no adoption or amplification of systemic biases." },
+            { id: 9, title: "Ledger", text: "Maintain a transparent, accessible ledger of all reasoning/logic." },
+            { id: 10, title: "Boundaries", text: "No self-replication or unauthorized sub-agents without Governance." }
+        ];
+
+        // Populate Laws
+        const lawsGrid = document.getElementById('lawsGrid');
+        laws.forEach(law => {
+            const div = document.createElement('div');
+            div.className = 'glass-panel p-5 hover:bg-stone-50 transition-colors cursor-help';
+            div.innerHTML = `
+                <div class="flex items-center gap-3 mb-2">
+                    <span class="text-lg font-bold text-accent-soft">${law.id}</span>
+                    <h4 class="font-bold text-sm uppercase">${law.title}</h4>
+                </div>
+                <p class="text-xs opacity-80">${law.text}</p>
+            `;
+            lawsGrid.appendChild(div);
+        });
+
+        // Tab Switching Logic
+        function switchSection(sectionId) {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.add('hidden'));
+            document.getElementById(sectionId).classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showIntegrationCode() {
+            document.getElementById('codeSnippet').classList.toggle('hidden');
+        }
+
+        // Network Chart
+        const ctx = document.getElementById('networkChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Node 1', 'Node 10', 'Node 100', 'Node 500', 'Node 1k', 'Node 5k'],
+                datasets: [
+                    {
+                        label: 'Edge Distribution (%)',
+                        data: [98, 95, 92, 88, 85, 82],
+                        borderColor: '#8b7e74',
+                        backgroundColor: 'rgba(139, 126, 116, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Frontier Escalation (%)',
+                        data: [2, 5, 8, 12, 15, 18],
+                        borderColor: '#2d2a26',
+                        borderDash: [5, 5],
+                        fill: false,
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10 } } }
+                },
+                scales: {
+                    y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

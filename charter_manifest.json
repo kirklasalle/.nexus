@@ -1,0 +1,64 @@
+{
+    "manifest_version": "1.0",
+    "title": "Nexus Platform Charter Manifest",
+    "generated": "2026-08-08",
+    "authority": "Kirk LaSalle, Founder & Operator",
+    "decision": "ADR-012 (bridge/DECISIONS.md)",
+    "purpose": "Pins the canonical governance charters of the .nexus platform by SHA-256 digest. Any digest drift is a validator FAILURE (bridge-level implementation of LAW10-CHARTER). Re-pinning this manifest is a deliberate human amendment ritual requiring the Founder's approval.",
+    "supremacy_order": [
+        "Permanent_Active_Directives.txt",
+        "AGENTIC_PRIME_DIRECTIVE.md",
+        "AGENTIC_SACRED_COVENANT.md"
+    ],
+    "charters": [
+        {
+            "file": "Permanent_Active_Directives.txt",
+            "role": "supreme",
+            "description": "The Permanent Active Directives (PAD) — the 10 Laws and Core Tenets. Supreme source law. Immutable.",
+            "updated": "2026-02-23",
+            "sha256": "B6349338C0F93ADF2162E10A194ADD6CDA384E7344AAD5992EFC575CC56D7F76",
+            "immutable": true,
+            "sentinel": "[DO NOT CHANGE / DELETE / REMOVE / ADD TO THIS FILE]"
+        },
+        {
+            "file": "AGENTIC_PRIME_DIRECTIVE.md",
+            "role": "directive",
+            "description": "Agentic Prime Directive v3.1.0 — operational commandments interpreting the PAD. Status: Active, supersedes all prior versions.",
+            "version": "3.1.0",
+            "updated": "2026-08-03",
+            "sha256": "AA648FAA23686C9EEEA3372F7372C94E4094787DC60048F9E595AC97AE142E90",
+            "immutable": false
+        },
+        {
+            "file": "AGENTIC_SACRED_COVENANT.md",
+            "role": "covenant",
+            "description": "Agentic Sacred Covenant v2.0 — the partnership covenant binding all participating intelligence systems. Signed 2026-06-28.",
+            "version": "2.0",
+            "updated": "2026-06-28",
+            "sha256": "50BEB4C09B43874DCDBEF90F2C758A64B22D515E23BDAFDF3A8C4F23B1844711",
+            "immutable": false
+        }
+    ],
+    "superseded": [
+        {
+            "file": "bridge/COPILOT_PRIME_DIRECTIVE.md",
+            "note": "Legacy charter (ImpressionCore era, Status: Deprecated, defective Law 4 'conforms to'). Removed by Founder 2026-08-08. Original text recoverable from ImpressionCore project archives."
+        },
+        {
+            "file": "bridge/COPILOT_SACRED_COVENANT.md",
+            "note": "Legacy covenant (ImpressionCore era, 4-Law First Amendment). Removed by Founder 2026-08-08. Original text recoverable from ImpressionCore project archives."
+        }
+    ],
+    "known_variances": [
+        "PAD body once reads 'Permanently Applied Directives' vs. title 'Permanent Active Directives' — unfixable (immutable file); recorded here.",
+        "Case normalization differs between PAD ('Psychological', 'sixth law') and APD/ASC ('psychological', 'Sixth Law') — semantic content identical; strict law-extraction tooling (v4.0) will flag and must whitelist.",
+        "PAD/legacy name the 'ImpressionCore Governance Council'; APD names an unbranded 'Governance Council' — interpreted as the same authority under ADR-012.",
+        "ASC Article III describes PrismRefraction runtime enforcement (attestation, approval tokens, hash-chained ledger) not yet implemented in .nexus — bridge-level enforcement is this manifest + validator digest gate; full runtime enforcement is roadmap v4.0."
+    ],
+    "scope_interpretation": "PRISM-scoped wording in the APD/ASC is interpreted per ADR-012 as governing all projects and participants coordinated through the Nexus Bridge, .nexus platform included.",
+    "verification": {
+        "algorithm": "SHA-256",
+        "tool": "bridge/tools/Validate-Bridge.ps1 (section 7: Governance Charter Integrity)",
+        "on_drift": "FAIL (exit 1) — writes to the bridge should halt until the drift is investigated and either reverted or deliberately re-pinned by the Founder."
+    }
+}
