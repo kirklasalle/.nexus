@@ -1,4 +1,4 @@
-# PRISM AGENTIC PRIME DIRECTIVE
+# AGENTIC PRIME DIRECTIVE
 
 **Created:** October 15, 2024
 **Updated:** August 3, 2026
