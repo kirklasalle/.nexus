@@ -23,10 +23,10 @@
         {
             "file": "AGENTIC_PRIME_DIRECTIVE.md",
             "role": "directive",
-            "description": "Agentic Prime Directive v3.1.0 — operational commandments interpreting the PAD. Status: Active, supersedes all prior versions.",
+            "description": "Agentic Prime Directive v3.1.0 — operational commandments interpreting the PAD. Status: Active, supersedes all prior versions. Amended by the Founder 2026-08-08 (commits 72804df, 482c653): title de-scoped from PRISM to universal ('AGENTIC PRIME DIRECTIVE'), clarity revisions.",
             "version": "3.1.0",
-            "updated": "2026-08-03",
-            "sha256": "AA648FAA23686C9EEEA3372F7372C94E4094787DC60048F9E595AC97AE142E90",
+            "updated": "2026-08-08",
+            "sha256": "4CCE9CC668671574A5EB1AB1390EC20EAE69CF48452E03927FDDF6679178BCD4",
             "immutable": false
         },
         {
@@ -55,7 +55,7 @@
         "PAD/legacy name the 'ImpressionCore Governance Council'; APD names an unbranded 'Governance Council' — interpreted as the same authority under ADR-012.",
         "ASC Article III describes PrismRefraction runtime enforcement (attestation, approval tokens, hash-chained ledger) not yet implemented in .nexus — bridge-level enforcement is this manifest + validator digest gate; full runtime enforcement is roadmap v4.0."
     ],
-    "scope_interpretation": "PRISM-scoped wording in the APD/ASC is interpreted per ADR-012 as governing all projects and participants coordinated through the Nexus Bridge, .nexus platform included.",
+    "scope_interpretation": "The APD was de-scoped from PRISM to universal by Founder amendment 2026-08-08. Remaining PRISM-scoped wording in the ASC is interpreted per ADR-012 as governing all projects and participants coordinated through the Nexus Bridge, .nexus platform included.",
     "verification": {
         "algorithm": "SHA-256",
         "tool": "bridge/tools/Validate-Bridge.ps1 (section 7: Governance Charter Integrity)",
