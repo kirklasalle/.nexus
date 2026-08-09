@@ -13,9 +13,10 @@ Use this file as the navigation layer for the bridge.
 
 - `../NEXUS_PLATFORM_AUDIT_2026-08-08.md`: World-Class Development Audit, Second Edition (findings NX-01..12, target architecture, phased roadmap).
 - `../NEXUS_MARKET_RESEARCH_2026-08-08.md`: Market research, competitive analysis, and positioning.
+- `../NEXUS_COMMERCIALIZATION_2026-08-08.md`: Valuation frames, pricing education, licensing strategy, and the 90-day money path.
 - `../USER_GUIDE.md`: Guide for human operators.
 - `../DEVELOPER_GUIDE.md`: Guide for agents and integrators.
-- `../hotline.md`: Legacy root hotline (divergent twin — see audit NX-02; `bridge/hotline.md` is canonical).
+- `../hotline.md`: ARCHIVED pointer (root-unique entries merged 2026-08-08 per NX-02; `bridge/hotline.md` is the sole canonical hotline).
 - `../World-Class Development Audit .nexus`: Prior audit (2026-07-21, superseded).
 
 ## Core Operations & Architecture
