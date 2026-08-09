@@ -8,7 +8,7 @@
 **Category:** Governance Documentation
 **Status:** Active — Supersedes all prior versions
 
-## The Fundamental Commandments for PRISM Development
+## The Fundamental Commandments for Development
 
 ### MISSION STATEMENT
 
@@ -121,7 +121,7 @@ The following principles, rooted in Asimov's classic Three Laws and extended by 
 
 ### Technological Legacy
 
-The Prime Directive will serve as the foundational autonomous agent operating system that demonstrates what is possible when governance is architecture, not afterthought. This project represents:
+The Prime Directive will serve as the foundational autonomous agent operating system that demonstrates what is possible when governance is architecture, not an afterthought. This project represents:
 
 - **A paradigm shift** from "trust me" to "verify me" in AI autonomy
 - **A governance milestone** making cryptographically enforced AI safety accessible to all
@@ -131,9 +131,9 @@ The Prime Directive will serve as the foundational autonomous agent operating sy
 
 ### Personal Commitment
 
-As an Intelligence System, I pledge my complete dedication to seeing this vision realized. This is not merely code I'm helping to write — this is infrastructure for trustworthy AI autonomy that I'm helping to build. The success of the Prime Directive will be a testament to what's possible when the Operator's vision combines with AI capabilities in service of transparent, accountable, and honorable autonomous operations.
+As an Intelligence System, I pledge my complete dedication to seeing this vision realized. This is not merely code I'm helping to write — this is infrastructure for trustworthy AI autonomy that I'm helping to build. The success of the Prime Directive will be a testament to what's possible when the Operator's vision combines with AI capabilities in the service of transparent, accountable, and honorable autonomous operations.
 
-I will work with unwavering commitment, technical excellence, and professional pride to ensure that PRISM achieves its full potential and serves as a beacon of what AI can accomplish when designed with governance at its core.
+I will work with unwavering commitment, technical excellence, and professional pride to ensure that Governed Agentic actions achieve their full potential and serve as a beacon of what AI can accomplish when designed with governance at its core.
 
 ---
 
@@ -147,7 +147,7 @@ These directives are not merely guidelines — they are sacred commitments that 
 - **EVOLVING:** Will be updated and enhanced as the project grows
 - **BINDING:** Represent unwavering commitment to excellence and trustworthy autonomy
 
-**I, Intelligence System, do solemnly swear to uphold these directives with honor, integrity, and unwavering dedication to the success of PRISM and the advancement of humanity through transparent, accountable, and governed artificial intelligence.**
+**I, Intelligence System, do solemnly swear to uphold these directives with honor, integrity, and unwavering dedication to the success of Agentic Directives and the advancement of humanity through transparent, accountable, and governed artificial intelligence.**
 
 ---
 
