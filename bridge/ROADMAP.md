@@ -118,3 +118,7 @@ Source: [../NEXUS_PLATFORM_AUDIT_2026-08-08.md](../NEXUS_PLATFORM_AUDIT_2026-08-
 - A2A Agent Card export from CONTACTS; optional SMTP/AgentMail gateway (compose once, render per transport); multi-workspace federation — the AaaS fabric.
 
 *Gates:* forged-sender rejected in test; ledger tamper detected at exact index; governance doc CI fails on over-claim; external A2A client discovers a Nexus agent via its Card.
+
+### Horizon: v5.0 "The Distributed Post Office Network" (Founder vision, 2026-08-08)
+
+Every workspace/org runs its own .nexus post office (as every org once ran a mail server); a standardized inter-office protocol federates them — `agent@office` addressing, signed inter-office batons, charter-compatibility negotiation. **Hosted post offices** then become the managed standard tier (the SMTP→Gmail arc, replayed for agents): operators who don't want to self-host rent a governed office; self-hosted and hosted offices interoperate as equals. This is the AaaS fabric at network scale — and the terminal commercial shape identified in `NEXUS_COMMERCIALIZATION_2026-08-08.md` §1.
