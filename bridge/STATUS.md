@@ -2,16 +2,18 @@
 
 ## Bridge Health
 
-- **Status:** Green (v2.0 Any-Agent Protocol Active)
-- **Assessment:** Any-Agent protocol is operational. The latest cross-IDE handoff is PrismRefraction v0.23.0, documented in `ROADMAP.md`, `CHANGELOG.md`, and `Agents/Antigravity_Thread.md`. The emergency hotline is clear.
+- **Status:** Green (v2.1 "Integrity" — governance enforced, git-tracked, hotline converged)
+- **Assessment:** Canonical charters pinned by SHA-256 (`charter_manifest.json`, ADR-012); validator extended to 44+ checks incl. charter digests; repository under git on `main` with baseline `3e62e0f`; root/bridge hotline split-brain resolved (NX-02) — `bridge/hotline.md` is sole canonical emergency channel with the ADR-013 color ladder ratified. Platform docs live: second-edition audit, market research, user/developer guides.
 
 ---
 
 ## Open Work
 
-- **NB-020:** Upgrade `tools/Validate-Bridge.ps1` for dynamic `CONTACTS.md` and `Agents/` folder verification.
-- **NB-021:** Update `tools/New-BridgeArchive.ps1` to dynamically process all agent threads in `Agents/`.
-- **NB-022:** Validate end-to-end baton passing across Antigravity and VS Code Copilot threads.
+- **NB-025:** UTF-8 mojibake normalization pass (historical hotline entries).
+- **NB-027:** First monthly rollover + archiver backtick bugfix.
+- **NB-028:** Validator v2.2 (encoding, divergence, legacy-dir, stale-contact checks).
+- **NB-029..NB-035:** v3.0/v3.5/v4.0 build-out — see `TASKS.md` and `ROADMAP.md`.
+- **NB-020..022 (legacy):** folded into NB-028 and NB-024 respectively.
 
 ---
 
@@ -30,8 +32,8 @@
 ## Last Validation
 
 - **Date:** 2026-08-08
-- **Result:** Prism handoff synchronized; structural validator pending execution after this update.
-- **Notes:** No active emergency or blocking Prism action remains on the hotline.
+- **Result:** 0 fail / 0 warn / 44 pass — including governance charter digest verification (ADR-012).
+- **Notes:** No active emergency. Hotline state: `[GREEN]` — converged and clear.
 
 ---
 

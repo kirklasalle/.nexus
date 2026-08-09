@@ -1,0 +1,15 @@
+# OS noise
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# editor state
+.vscode/
+*.swp
+
+# local runtime artifacts (future nexusd)
+*.log
+node_modules/
+dist/
+.venv/
+__pycache__/

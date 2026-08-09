@@ -84,14 +84,14 @@ Source: [../NEXUS_PLATFORM_AUDIT_2026-08-08.md](../NEXUS_PLATFORM_AUDIT_2026-08-
 - [x] Canonical governance charters adopted + `charter_manifest.json` digest pinning (ADR-012).
 - [x] Validator: governance charter integrity section (FAIL on drift; immutable sentinel check).
 - [x] Platform docs: second-edition audit, market research, user & developer guides; INDEX/README/ONBOARDING wiring.
-- [ ] `git init` + initial commit + pre-commit validator hook (NX-01, NB-023).
-- [ ] Hotline convergence: merge unique root entries into `bridge/hotline.md`; root becomes pointer (NX-02, NB-024) — requires Founder approval; production-safe window.
-- [ ] UTF-8 normalization pass + `.editorconfig` (NX-06, NB-025).
-- [ ] Archive legacy `Antigravity/` + `VS_Code/` folders; reconcile doc naming (NX-07, NB-026).
+- [x] `git init` + initial commit (`3e62e0f`) on `main`; pre-commit validator hook pending (NX-01, NB-023).
+- [x] Hotline convergence: root-unique entries merged into `bridge/hotline.md`; root marked ARCHIVED pointer (NX-02, NB-024).
+- [ ] UTF-8 normalization pass (NX-06, NB-025) — `.editorconfig` shipped; historical mojibake cleanup pending.
+- [x] Archive legacy `Antigravity/` + `VS_Code/` folders with pointer stubs (NX-07, NB-026).
 - [ ] First archive rollover + fix backtick bug in `New-BridgeArchive.ps1` (NX-09, NB-027).
 - [ ] Validator v2.2: encoding check, divergence hash check, legacy-dir rule, stale-contact warning (NX-05, NB-028).
-- [ ] TASKS reconciliation + one monthly review record + certification decision (NX-10, NB-029 prep).
-- [ ] Hotline Severity Ladder ratification (ADR-013: RED/AMBER/YELLOW/GREEN/BLUE prefixes, single master file).
+- [ ] TASKS reconciliation + one monthly review record + certification decision (NX-10, NB-029 prep) — TASKS refreshed 2026-08-08; review record pending.
+- [x] Hotline Severity Ladder ratified (ADR-013: RED/AMBER/YELLOW/GREEN/BLUE prefixes, single master file).
 
 *Gates:* git history exists; single canonical hotline verified by hash; zero mojibake bytes; validator ≥50 checks; TASKS current within 7 days.
 

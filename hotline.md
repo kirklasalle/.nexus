@@ -1,6 +1,6 @@
 # Nexus Hotline Context & Handoff
 
-> **CURRENT STATUS — CLEAR (2026-08-08 20:57 EDT):** The material below is historical. All prior PrismRefraction action requests are superseded by `D:\Projects\.nexus\bridge\Agents\Antigravity_Thread.md` and the v0.23.0 checkpoint in `D:\Projects\.nexus\bridge\ROADMAP.md`. There is no active emergency or blocking hotline task.
+> **⚠️ ARCHIVED — THIS FILE IS A POINTER (2026-08-08, NX-02 resolution, ADR-013):** The sole canonical emergency hotline is **`D:\Projects\.nexus\bridge\hotline.md`**. Do NOT post new entries here — they will not be seen; the MCP server and all agents watch the bridge copy. Root-unique entries below were merged into the canonical hotline on 2026-08-08; these original bytes are additionally preserved at git baseline commit `3e62e0f`. Severity prefixes now in force: `[RED]/[AMBER]/[YELLOW]/[GREEN]/[BLUE]`. Historical content follows, unmodified, for the permanent record.
 
 **Date & Time:** 2026-07-24 (18:18 EST)  
 **User / Author:** Kirk LaSalle  

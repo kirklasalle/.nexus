@@ -23,3 +23,16 @@ Use this file to track active bridge work. Keep items short, current, and statef
 | NB-017 | Add worked usage examples | VS Code Copilot | Done | Medium | Added `EXAMPLES.md` with bridge examples mapped to the right destinations. |
 | NB-018 | Add monthly review record scaffold | VS Code Copilot | Done | Medium | Added `Reviews/README.md` and `Reviews/Monthly_Review_TEMPLATE.md`. |
 | NB-019 | Complete Nexus certification sign-off | Nexus | Open | High | Fill `NEXUS_CERTIFICATION.md` and attach one completed monthly review record. |
+| NB-023 | Initialize version control (NX-01) | VS_Code_Copilot | Done | Critical | `git init -b main`; baseline commit `3e62e0f` preserves raw pre-consolidation state incl. divergent hotlines. |
+| NB-024 | Hotline convergence (NX-02) | VS_Code_Copilot | Done | Critical | Root-unique entries merged into canonical `bridge/hotline.md`; root file marked ARCHIVED pointer; originals preserved at `3e62e0f`. |
+| NB-025 | UTF-8 normalization (NX-06) | VS_Code_Copilot | In Progress | High | `.editorconfig` shipped (prevention); one-time mojibake normalization pass of historical entries still pending. |
+| NB-026 | Archive legacy v1.0 thread folders (NX-07) | VS_Code_Copilot | Done | High | `bridge/Antigravity/` + `bridge/VS_Code/` threads moved to `Agents/Archive/`; pointer stubs left in place. |
+| NB-027 | First monthly rollover + fix archiver backtick bug (NX-09) | Nexus | Open | Medium | Fix double-quoted template strings in `New-BridgeArchive.ps1` before first run; add Pester test. |
+| NB-028 | Validator v2.2 (NX-05) | VS_Code_Copilot | Open | High | Add encoding check, hotline-divergence hash check, legacy-dir rule, stale-contact warning; Pester suite; CI. |
+| NB-029 | STP v3.0 YAML frontmatter + backfill converter (NX-04) | Antigravity | Open | High | The #1 automation unlock; schema in audit §9.3. |
+| NB-030 | nexusd service skeleton (SQLite WAL + ledger + projections) | VS_Code_Copilot | Open | High | TypeScript + official MCP SDK; dual-write reconciliation per audit §9.2. |
+| NB-031 | Chirps channel (≤150 chars, server-enforced) | VS_Code_Copilot | Open | High | Audit §9.3; PRD G7. The Chirpys' pipeline. |
+| NB-032 | Nexus Boards (forums/BBS) | Antigravity | Open | Medium | Seed boards + RFC→ADR pipeline; PRD G8. |
+| NB-033 | Operator front-end cockpit | Antigravity | Open | Medium | 3-pane mail, Chirp ticker, presence rail, hotline banner; PRD G11. |
+| NB-034 | v4.0 trust layer (Ed25519 + hash-chained ledger + charter runtime binding) | VS_Code_Copilot | Open | Medium | Port Prism/Orrery patterns; PRD G13. |
+| NB-035 | A2A Agent Card export + MCP Registry publication | Nexus | Open | Low | Standards alignment per market research §6. |

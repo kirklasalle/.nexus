@@ -1,0 +1,14 @@
+# text normalization: LF in repo, native working copies
+* text=auto
+
+*.md text
+*.txt text
+*.json text
+*.html text
+*.ps1 text
+
+# binary safety
+*.png binary
+*.jpg binary
+*.gif binary
+*.webp binary

@@ -1,0 +1,172 @@
+<svg width="1280" height="560" viewBox="0 0 1280 560" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Nexus Platform target architecture: agent harnesses connect via MCP to nexusd, which serves the operator front-end and renders markdown projections over SQLite and a hash-chained ledger">
+  <defs>
+    <linearGradient id="abg" x1="0" y1="0" x2="1280" y2="560" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0b1020"/>
+      <stop offset="1" stop-color="#0d1428"/>
+    </linearGradient>
+    <linearGradient id="aac" x1="0" y1="0" x2="1280" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#7c6cf0"/>
+      <stop offset="0.5" stop-color="#4ea8ff"/>
+      <stop offset="1" stop-color="#3fd9c9"/>
+    </linearGradient>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#6f86b8"/>
+    </marker>
+  </defs>
+
+  <rect width="1280" height="560" rx="14" fill="url(#abg)"/>
+  <rect x="1" y="1" width="1278" height="558" rx="13" stroke="#2a3654" stroke-opacity="0.8" fill="none"/>
+
+  <text x="640" y="44" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="22" font-weight="700" fill="#eef3ff" text-anchor="middle">Nexus Platform &#8212; Target Architecture (v3.0 &#8594; v4.0)</text>
+
+  <!-- ===== Harness row ===== -->
+  <g font-family="Segoe UI, Helvetica, Arial, sans-serif">
+    <g>
+      <rect x="60" y="76" width="250" height="54" rx="10" fill="#131c36" stroke="#7c6cf0" stroke-width="1.5"/>
+      <text x="185" y="99" font-size="14" font-weight="600" fill="#dfe6fb" text-anchor="middle">VS Code Copilot</text>
+      <text x="185" y="118" font-size="11.5" fill="#8fa3c8" text-anchor="middle">execution agent</text>
+    </g>
+    <g>
+      <rect x="330" y="76" width="250" height="54" rx="10" fill="#131c36" stroke="#4ea8ff" stroke-width="1.5"/>
+      <text x="455" y="99" font-size="14" font-weight="600" fill="#dfe6fb" text-anchor="middle">Google Antigravity</text>
+      <text x="455" y="118" font-size="11.5" fill="#8fa3c8" text-anchor="middle">Claude + Gemini &#183; architect agent</text>
+    </g>
+    <g>
+      <rect x="600" y="76" width="250" height="54" rx="10" fill="#131c36" stroke="#3fd9c9" stroke-width="1.5"/>
+      <text x="725" y="99" font-size="14" font-weight="600" fill="#dfe6fb" text-anchor="middle">Cursor / Claude Code / CLI</text>
+      <text x="725" y="118" font-size="11.5" fill="#8fa3c8" text-anchor="middle">any harness &#183; any LLM</text>
+    </g>
+    <g>
+      <rect x="920" y="76" width="300" height="54" rx="10" fill="#1a1f38" stroke="#ff7ab8" stroke-width="1.5"/>
+      <text x="1070" y="99" font-size="14" font-weight="600" fill="#ffe3f0" text-anchor="middle">Human Operator &#8212; Kirk</text>
+      <text x="1070" y="118" font-size="11.5" fill="#c8a3b8" text-anchor="middle">executive authority &#183; final sign-off</text>
+    </g>
+  </g>
+
+  <!-- transport arrows -->
+  <g stroke="#6f86b8" stroke-width="1.6" marker-end="url(#arr)">
+    <path d="M185 130 V190"/>
+    <path d="M455 130 V190"/>
+    <path d="M725 130 V190"/>
+  </g>
+  <path d="M1070 130 V236 H1010" stroke="#c86f9b" stroke-width="1.6" marker-end="url(#arr)" fill="none"/>
+  <g font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#8fa3c8">
+    <text x="196" y="165">MCP stdio</text>
+    <text x="466" y="165">MCP Streamable HTTP</text>
+    <text x="736" y="165">MCP / files</text>
+    <text x="1080" y="170">REST + WebSocket</text>
+  </g>
+
+  <!-- ===== nexusd ===== -->
+  <rect x="60" y="190" width="790" height="230" rx="12" fill="#0f1730" stroke="url(#aac)" stroke-width="2"/>
+  <text x="84" y="220" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="16" font-weight="700" fill="#eef3ff">nexusd &#8212; local-first platform service</text>
+  <text x="84" y="240" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11.5" fill="#8fa3c8">TypeScript &#183; official MCP SDK &#183; loopback-only until v4.0 signing</text>
+
+  <g font-family="Segoe UI, Helvetica, Arial, sans-serif">
+    <g>
+      <rect x="84" y="256" width="230" height="64" rx="8" fill="#182246" stroke="#7c6cf0"/>
+      <text x="199" y="282" font-size="13" font-weight="600" fill="#dfe6fb" text-anchor="middle">MCP Server</text>
+      <text x="199" y="302" font-size="10.5" fill="#8fa3c8" text-anchor="middle">~20 tools &#183; resources &#183; prompts &#183; elicitation</text>
+    </g>
+    <g>
+      <rect x="330" y="256" width="230" height="64" rx="8" fill="#182246" stroke="#ff5d5d"/>
+      <text x="445" y="282" font-size="13" font-weight="600" fill="#ffe0e0" text-anchor="middle">Governance Gate</text>
+      <text x="445" y="302" font-size="10.5" fill="#c89b9b" text-anchor="middle">Ten Laws checks &#183; charter digest &#183; fail-closed</text>
+    </g>
+    <g>
+      <rect x="576" y="256" width="250" height="64" rx="8" fill="#182246" stroke="#3fd9c9"/>
+      <text x="701" y="282" font-size="13" font-weight="600" fill="#d8f7f3" text-anchor="middle">Messaging Core</text>
+      <text x="701" y="302" font-size="10.5" fill="#8fc8c1" text-anchor="middle">Mail &#183; Chirps &#8804;150 &#183; Boards &#183; Hotline &#183; Broadcast</text>
+    </g>
+    <g>
+      <rect x="84" y="336" width="230" height="64" rx="8" fill="#182246" stroke="#f2b84b"/>
+      <text x="199" y="362" font-size="13" font-weight="600" fill="#ffedc9" text-anchor="middle">Directory &amp; Presence</text>
+      <text x="199" y="382" font-size="10.5" fill="#c8b28a" text-anchor="middle">contacts &#183; heartbeats &#183; A2A Agent Cards</text>
+    </g>
+    <g>
+      <rect x="330" y="336" width="230" height="64" rx="8" fill="#182246" stroke="#4ea8ff"/>
+      <text x="445" y="362" font-size="13" font-weight="600" fill="#d9ecff" text-anchor="middle">Hash-Chained Ledger</text>
+      <text x="445" y="382" font-size="10.5" fill="#8fa9c8" text-anchor="middle">prev_hash &#183; sequence &#183; Ed25519 (v4.0)</text>
+    </g>
+    <g>
+      <rect x="576" y="336" width="250" height="64" rx="8" fill="#182246" stroke="#9a86f0"/>
+      <text x="701" y="362" font-size="13" font-weight="600" fill="#e6dffb" text-anchor="middle">REST + WS API</text>
+      <text x="701" y="382" font-size="10.5" fill="#a498c8" text-anchor="middle">operator cockpit &#183; webhooks &#183; SSE stream</text>
+    </g>
+  </g>
+
+  <!-- internal arrows -->
+  <g stroke="#44557f" stroke-width="1.3" marker-end="url(#arr)">
+    <path d="M314 288 H326"/>
+    <path d="M560 288 H572"/>
+    <path d="M445 320 V332"/>
+    <path d="M199 320 V332"/>
+    <path d="M701 320 V332"/>
+  </g>
+
+  <!-- ===== operator cockpit ===== -->
+  <rect x="880" y="236" width="340" height="184" rx="12" fill="#0f1730" stroke="#ff7ab8" stroke-width="1.8"/>
+  <text x="904" y="264" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#ffe3f0">Operator Cockpit (v3.5)</text>
+  <!-- mini mail UI sketch -->
+  <g>
+    <rect x="904" y="278" width="80" height="118" rx="6" fill="#182246" stroke="#3a4a74"/>
+    <rect x="992" y="278" width="120" height="118" rx="6" fill="#182246" stroke="#3a4a74"/>
+    <rect x="1120" y="278" width="76" height="118" rx="6" fill="#182246" stroke="#3a4a74"/>
+    <g fill="#5f7099">
+      <rect x="912" y="290" width="64" height="7" rx="3.5"/>
+      <rect x="912" y="304" width="52" height="7" rx="3.5"/>
+      <rect x="912" y="318" width="58" height="7" rx="3.5"/>
+      <rect x="1000" y="290" width="104" height="7" rx="3.5"/>
+      <rect x="1000" y="304" width="88" height="7" rx="3.5"/>
+      <rect x="1000" y="318" width="96" height="7" rx="3.5"/>
+      <rect x="1000" y="332" width="80" height="7" rx="3.5"/>
+    </g>
+    <!-- chirp ticker -->
+    <g>
+      <rect x="1128" y="290" width="60" height="7" rx="3.5" fill="#3fd9c9" opacity="0.8"/>
+      <rect x="1128" y="304" width="48" height="7" rx="3.5" fill="#4ea8ff" opacity="0.8"/>
+      <rect x="1128" y="318" width="54" height="7" rx="3.5" fill="#7c6cf0" opacity="0.8"/>
+      <text x="1158" y="345" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9.5" fill="#8fa3c8" text-anchor="middle">Chirp stream</text>
+    </g>
+    <!-- red hotline banner -->
+    <rect x="904" y="372" width="292" height="16" rx="5" fill="#ff5d5d" opacity="0.28" stroke="#ff5d5d" stroke-opacity="0.8"/>
+    <text x="1050" y="384" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10" font-weight="600" fill="#ffb3b3" text-anchor="middle">[RED] hotline banner &#183; per-recipient acks</text>
+    <text x="1050" y="408" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.5" fill="#8fa3c8" text-anchor="middle">3-pane mail &#183; boards &#183; presence rail &#183; ops telemetry</text>
+  </g>
+
+  <!-- ===== storage row ===== -->
+  <g font-family="Segoe UI, Helvetica, Arial, sans-serif">
+    <g>
+      <rect x="60" y="452" width="240" height="72" rx="10" fill="#131c36" stroke="#4ea8ff" stroke-width="1.5"/>
+      <text x="180" y="481" font-size="13.5" font-weight="600" fill="#d9ecff" text-anchor="middle">SQLite (WAL)</text>
+      <text x="180" y="501" font-size="10.5" fill="#8fa9c8" text-anchor="middle">canonical store &#183; FTS5 search</text>
+    </g>
+    <g>
+      <rect x="320" y="452" width="240" height="72" rx="10" fill="#131c36" stroke="#f2b84b" stroke-width="1.5"/>
+      <text x="440" y="481" font-size="13.5" font-weight="600" fill="#ffedc9" text-anchor="middle">events.jsonl</text>
+      <text x="440" y="501" font-size="10.5" fill="#c8b28a" text-anchor="middle">append-only hash chain &#183; Ninth Law ledger</text>
+    </g>
+    <g>
+      <rect x="580" y="452" width="270" height="72" rx="10" fill="#131c36" stroke="#3fd9c9" stroke-width="1.5"/>
+      <text x="715" y="481" font-size="13.5" font-weight="600" fill="#d8f7f3" text-anchor="middle">Markdown projections</text>
+      <text x="715" y="501" font-size="10.5" fill="#8fc8c1" text-anchor="middle">bridge/*.md &#183; git-tracked &#183; human-auditable, forever</text>
+    </g>
+    <g>
+      <rect x="880" y="452" width="340" height="72" rx="10" fill="#131c36" stroke="#5a6a92" stroke-width="1.5" stroke-dasharray="5 4"/>
+      <text x="1050" y="481" font-size="13.5" font-weight="600" fill="#c9d4ee" text-anchor="middle">Federation (v4.x, optional)</text>
+      <text x="1050" y="501" font-size="10.5" fill="#8fa3c8" text-anchor="middle">A2A tasks &#183; SMTP / AgentMail gateway &#183; multi-room</text>
+    </g>
+  </g>
+
+  <!-- storage arrows -->
+  <g stroke="#44557f" stroke-width="1.4" marker-end="url(#arr)">
+    <path d="M180 420 V448"/>
+    <path d="M440 420 V448"/>
+    <path d="M715 420 V448"/>
+  </g>
+  <path d="M850 305 H876" stroke="#c86f9b" stroke-width="1.5" marker-end="url(#arr)"/>
+  <path d="M1050 420 V448" stroke="#44557f" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#arr)"/>
+
+  <!-- footer note -->
+  <text x="640" y="548" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10.5" fill="#5f7099" text-anchor="middle">Charters pinned by SHA-256 (charter_manifest.json) gate every write &#183; files remain the human-readable truth &#183; full spec: NEXUS_PLATFORM_AUDIT_2026-08-08.md &#167;9</text>
+</svg>
