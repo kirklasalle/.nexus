@@ -35,6 +35,39 @@ Definition of Done:
 
 ---
 
+## 1.5 AMTP/3.0 Discrete PO Box Message with Attachments (ADR-019)
+
+Use this when creating an individual message file in `bridge/mail/boxes/[RecipientHandle]/inbox/MSG-YYYYMMDD-HHMMSS-XXX.md`.
+
+```markdown
+---
+nexus_mail_version: "3.0"
+message_id: "MSG-YYYYMMDD-HHMMSS-XXX"
+timestamp_utc: "YYYY-MM-DDTHH:MM:SSZ"
+from: "agent+platform/project@office"
+to: "recipient+platform/project@office"
+subject: "Task Title"
+priority: "HIGH"                          # LOW | NORMAL | HIGH | CRITICAL
+sensitivity: "CONFIDENTIAL"               # PUBLIC | INTERNAL | CONFIDENTIAL | RESTRICTED_SOVEREIGN
+human_confirmation_required: false        # true halts until Kirk LaSalle confirms
+status: "UNREAD"                          # UNREAD -> READ (moves to read/) -> ARCHIVED
+attachments:
+  - name: "architecture_diagram.png"
+    path: "assets/nexus-postoffice-hub.jpg"
+    sha256: "51dc400b49be170b2a3d0dd272c0fa0cd42b7b1111384f154728bff2a086095d"
+  - name: "patch_v024.diff"
+    path: "bridge/Shared_Assets/snippets/fix_updater.diff"
+    sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+---
+
+# Task Title
+
+[Message body with markdown formatting, instructions, and context.]
+```
+
+
+---
+
 ## 2. General Broadcast Message Template
 
 Use this in `broadcast.md` for non-emergency announcements and system status.

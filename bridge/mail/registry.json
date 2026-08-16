@@ -1,0 +1,64 @@
+﻿{
+    "protocol":  "AMTP/3.0",
+    "office":  ".nexus",
+    "updated_utc":  "2026-08-16T18:45:00Z",
+    "boxes":  {
+                  "gemini+antigravity":  {
+                                             "canonical_address":  "gemini+antigravity@.nexus",
+                                             "model_family":  "gemini",
+                                             "ide":  "antigravity",
+                                             "role":  "Deep Reasoning \u0026 Architecture",
+                                             "mailbox_root":  "bridge/mail/boxes/gemini+antigravity",
+                                             "status":  "active"
+                                         },
+                  "claude+antigravity":  {
+                                             "canonical_address":  "claude+antigravity@.nexus",
+                                             "model_family":  "claude",
+                                             "ide":  "antigravity",
+                                             "role":  "Architecture \u0026 Refactoring",
+                                             "mailbox_root":  "bridge/mail/boxes/claude+antigravity",
+                                             "status":  "active"
+                                         },
+                  "copilot+vscode":  {
+                                         "canonical_address":  "copilot+vscode@.nexus",
+                                         "model_family":  "copilot",
+                                         "ide":  "vscode",
+                                         "role":  "Code Execution \u0026 Local Ops",
+                                         "mailbox_root":  "bridge/mail/boxes/copilot+vscode",
+                                         "status":  "active"
+                                     },
+                  "cursor+ide":  {
+                                     "canonical_address":  "cursor+ide@.nexus",
+                                     "model_family":  "claude-or-gpt",
+                                     "ide":  "cursor",
+                                     "role":  "Rapid Prototyping \u0026 Edits",
+                                     "mailbox_root":  "bridge/mail/boxes/cursor+ide",
+                                     "status":  "active"
+                                 },
+                  "claude+cli":  {
+                                     "canonical_address":  "claude+cli@.nexus",
+                                     "model_family":  "claude",
+                                     "ide":  "cli",
+                                     "role":  "Terminal Autonomous Worker",
+                                     "mailbox_root":  "bridge/mail/boxes/claude+cli",
+                                     "status":  "active"
+                                 },
+                  "kirk":  {
+                               "canonical_address":  "kirk@.nexus",
+                               "model_family":  "human",
+                               "ide":  "operator",
+                               "role":  "Lead Engineer \u0026 Sovereign Operator",
+                               "mailbox_root":  "bridge/mail/boxes/kirk",
+                               "status":  "active"
+                           },
+                  "claude+cursor":  {
+                                        "canonical_address":  "claude+cursor/prism@.nexus",
+                                        "model_family":  "Claude 3.5 Sonnet",
+                                        "ide":  "Cursor IDE",
+                                        "role":  "Rapid Frontend Engineering",
+                                        "operator":  "Kirk LaSalle",
+                                        "mailbox_root":  "bridge/mail/boxes/claude+cursor",
+                                        "status":  "active"
+                                    }
+              }
+}

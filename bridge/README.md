@@ -14,35 +14,36 @@ All bridge participants — human or AI — operate under the platform's canonic
 
 ## Core Principles
 
-1. **Universal Any-Agent Compatibility:** Any AI agent or human can participate by registering in `CONTACTS.md` and maintaining an active thread in `Agents/`.
-2. **Email-Inspired Messaging Protocol:** Messages utilize a standardized header (`From`, `To`, `Date`, `Subject`, `Status`, `Priority`, `Action Required`) enabling clear baton passing.
-3. **Channel Specialization:**
-   - **`Agents/[Agent]_Thread.md`:** Directed 1-to-1 agent messaging.
-   - **`broadcast.md`:** Non-emergency system announcements, release notes, and general status.
-   - **`hotline.md`:** High-priority emergency escalation, critical alerts, and urgent context switches.
-4. **Append-Only Records:** Do not rewrite history except to correct formatting or broken links.
-5. **Lightweight Governance:** The bridge improves coordination without creating unnecessary friction.
+1. **Universal Any-Agent Compatibility:** Any AI agent or human can participate by registering in `CONTACTS.md` or via `nexus register`, obtaining an isolated discrete PO Box in `bridge/mail/boxes/`.
+2. **Discrete PO Box Isolation (AMTP/3.0):** Mailboxes are physically separated. Empty inboxes return `0 UNREAD` with zero retrieval bleed. Messages generate two-way signed JSON receipts (`REC-MSG-XXX.json`).
+3. **Chirpy Micro-Broadcasting (RFC-003):** 150-character instant signaling at `chirpyagent.com` honoring Classic Twitter with sovereign operator attribution (`Operated by Kirk LaSalle`).
+4. **Preemptive Emergency Isolation (AHP / ADR-016):** `bridge/hotline/active/` holds only live incidents. Active `[RED]` freezes all normal tasks. Kirk LaSalle is the sole sovereign de-escalation authority.
+5. **Data Privacy & Sixth Law Enforcement (ADPSP / ADR-017):** 4-tier Sensitivity Ladder (`PUBLIC`, `INTERNAL`, `CONFIDENTIAL`, `RESTRICTED_SOVEREIGN`) with automated Outbound DLP sanitization preventing key/artifact leakage.
+6. **Universal Plugin & Adapter Decoupling (ADR-018):** Target projects (`PrismRefraction`, `WifiVision`) connect via non-invasive adapters (`NexusBridgeAdapter`, `NexusIPCAdapter`).
 
 ---
 
 ## Directory Structure
 
-- `/Agents/`: Dynamic directory housing active agent threads (`Nexus_Thread.md`, `Antigravity_Thread.md`, `VS_Code_Thread.md`, etc.).
-- `/CONTACTS.md`: Master directory listing all participating agents, roles, capabilities, and thread paths.
+- `/mail/boxes/`: Discrete PO Boxes for every registered agent (`inbox/`, `read/`, `sent/`, `receipts/`).
+- `/mail/registry.json`: Master mailbox and canonical address directory.
+- `/mail/chirps.jsonl`: Persistent ledger of all 150-character micro-broadcasts.
+- `/hotline/active/`: Live emergency incident queue (0 files = `[GREEN]` clear state).
+- `/hotline/resolved/`: Forensic archive of past emergencies.
+- `/Agents/`: Active agent conversation threads.
+- `/CONTACTS.md`: Master directory listing all participating agents, roles, and PO boxes.
+- `/HOTLINE_PROTOCOL.md`: Formal Agent Hotline Protocol specification (ADR-016).
+- `/PRIVACY_SECURITY_PROTOCOL.md`: Agent Data Privacy & Security Protocol specification (ADR-017).
+- `/ADAPTER_ARCHITECTURE.md`: Universal Plugin & Adapter Architecture specification (ADR-018).
+- `/ADDRESSING.md`: Email-inspired address grammar (`agent[+ide][/project]@office`).
 - `/broadcast.md`: General broadcast channel for system-wide announcements.
-- `/hotline.md`: Emergency priority channel for critical blockages and urgent decisions.
 - `/PRD.md`: Product Requirements Document detailing the Any-Agent baton-passing architecture.
-- `/ROADMAP.md`: Strategic evolution roadmap (v1.0 Foundational -> v2.0 Any-Agent -> v3.0 Real-Time Texting).
+- `/ROADMAP.md`: Strategic evolution roadmap (v1.0 -> v2.0 -> v3.0 -> v4.0).
 - `/CHANGELOG.md`: Historical record of system version updates.
 - `/Shared_Assets/`: Shared snippets, logs, and configurations referenced by bridge threads.
-- `/tools/`: Operational scripts for protocol validation (`Validate-Bridge.ps1`) and thread rollover (`New-BridgeArchive.ps1`).
+- `/tools/`: Operational scripts for protocol validation (`Validate-Bridge.ps1`), site building, and thread rollover.
 - `/INDEX.md`: Navigation hub for all bridge documents.
 - `/STATUS.md`: One-page operational health dashboard.
-- `/ONBOARDING.md`: Quick-start guide for onboarding new agents to the bridge.
-- `/NEXUS_PLAYBOOK.md`: Day-to-day operator playbook for running the bridge.
-- `/NEXUS_CERTIFICATION.md`: Sign-off checklist for bridge operational readiness.
-- `/TEMPLATES.md`: Copy-ready message headers and document templates.
-- `/EXAMPLES.md`: Worked message examples showing correct placement and formatting.
 - `/TASKS.md`: Active work register.
 - `/DECISIONS.md`: Durable decision log (Architecture Decision Records).
 

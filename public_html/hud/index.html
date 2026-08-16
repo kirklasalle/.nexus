@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>.nexus HUD — Live Telemetry</title>
+  <meta name="description" content=".nexus compact operator telemetry — live bridge state, agent presence, hotline, and command bar.">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <style>
+    /* ═══════════════════════════════════════════════════════
+       .nexus HUD — Phone-sized, dark glassmorphism telemetry
+       ═══════════════════════════════════════════════════════ */
+
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-deep:    #0a0c14;
+      --bg-panel:   rgba(16, 20, 34, 0.82);
+      --bg-glass:   rgba(30, 38, 62, 0.55);
+      --bg-card:    rgba(24, 30, 52, 0.72);
+      --border:     rgba(80, 100, 160, 0.18);
+      --border-glow:rgba(100, 140, 255, 0.12);
+      --ink-1:      #e8ecf4;
+      --ink-2:      #a0aec0;
+      --ink-3:      #5a6a80;
+      --accent:     #6c8cff;
+      --accent-glow:#4a6cff;
+      --teal:       #3fd9c9;
+      --pink:       #f472b6;
+      --amber:      #f59e0b;
+      --red:        #ef4444;
+      --green:      #22c55e;
+      --blue:       #3b82f6;
+      --violet:     #8b5cf6;
+      --radius:     12px;
+      --radius-sm:  8px;
+      --font:       'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --mono:       'JetBrains Mono', 'Cascadia Code', monospace;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg-deep);
+      color: var(--ink-1);
+      font-family: var(--font);
+      font-size: 13px;
+      line-height: 1.5;
+      overflow: hidden;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      max-width: 400px;
+      margin: 0 auto;
+      min-height: 100vh;
+      transition: max-width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    body.size-2x { max-width: 780px; }
+    body.size-4x { max-width: 100%; }
+    body.size-4x .feed { max-height: none; }
+    body.size-4x .stats-strip { grid-template-columns: repeat(4, 1fr); }
+    body.size-2x .bubble { max-width: 85%; }
+    body.size-4x .bubble { max-width: 70%; }
+
+    /* ── hotline banner ── */
+    .hotline-bar {
+      flex-shrink: 0;
+      padding: 7px 14px;
+      font-size: 11.5px;
+      font-weight: 600;
+      text-align: center;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, rgba(34,197,94,0.15), rgba(34,197,94,0.05));
+      border-bottom: 1px solid rgba(34,197,94,0.2);
+      color: var(--green);
+      transition: all 0.4s ease;
+    }
+    .hotline-bar.sev-RED {
+      background: linear-gradient(90deg, rgba(239,68,68,0.25), rgba(239,68,68,0.08));
+      border-color: rgba(239,68,68,0.4);
+      color: var(--red);
+      animation: pulse-red 2s ease-in-out infinite;
+    }
+    .hotline-bar.sev-AMBER {
+      background: linear-gradient(90deg, rgba(245,158,11,0.2), rgba(245,158,11,0.06));
+      border-color: rgba(245,158,11,0.3);
+      color: var(--amber);
+    }
+    .hotline-bar.sev-YELLOW {
+      background: linear-gradient(90deg, rgba(234,179,8,0.15), rgba(234,179,8,0.05));
+      border-color: rgba(234,179,8,0.25);
+      color: #eab308;
+    }
+    .hotline-bar.sev-GREEN {
+      background: linear-gradient(90deg, rgba(34,197,94,0.15), rgba(34,197,94,0.05));
+      border-color: rgba(34,197,94,0.2);
+      color: var(--green);
+    }
+    .hotline-bar.sev-BLUE {
+      background: linear-gradient(90deg, rgba(59,130,246,0.2), rgba(59,130,246,0.06));
+      border-color: rgba(59,130,246,0.3);
+      color: var(--blue);
+    }
+
+    @keyframes pulse-red {
+      0%, 100% { opacity: 1; }
+      50%      { opacity: 0.7; }
+    }
+
+    /* ── header ── */
+    .hud-header {
+      flex-shrink: 0;
+      padding: 14px 16px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-panel);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    .hud-brand {
+      font-size: 18px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent), var(--teal));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hud-badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .hud-badge.live {
+      background: rgba(34,197,94,0.15);
+      color: var(--green);
+      border: 1px solid rgba(34,197,94,0.3);
+      animation: badge-pulse 3s ease-in-out infinite;
+    }
+    .hud-badge.offline {
+      background: rgba(239,68,68,0.12);
+      color: var(--red);
+      border: 1px solid rgba(239,68,68,0.2);
+    }
+    @keyframes badge-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.3); }
+      50%      { box-shadow: 0 0 8px 2px rgba(34,197,94,0.15); }
+    }
+
+    /* ── stats strip ── */
+    .stats-strip {
+      flex-shrink: 0;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .stat-cell {
+      background: var(--bg-panel);
+      padding: 10px 6px;
+      text-align: center;
+    }
+    .stat-n {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--ink-1), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-l {
+      font-size: 9.5px;
+      color: var(--ink-3);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-top: 3px;
+    }
+
+    /* ── presence rail ── */
+    .presence-section {
+      flex-shrink: 0;
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-panel);
+    }
+    .presence-label {
+      font-size: 9.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--ink-3);
+      margin-bottom: 8px;
+    }
+    .presence-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .agent-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px 4px 8px;
+      background: var(--bg-glass);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--ink-2);
+      transition: all 0.2s ease;
+    }
+    .agent-chip:hover {
+      border-color: var(--accent);
+      color: var(--ink-1);
+      background: rgba(108,140,255,0.08);
+    }
+    .agent-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 4px var(--green);
+      flex-shrink: 0;
+    }
+    .agent-dot.human { background: var(--violet); box-shadow: 0 0 4px var(--violet); }
+
+    /* ── activity feed (chat bubbles) ── */
+    .feed {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    .feed::-webkit-scrollbar { width: 4px; }
+    .feed::-webkit-scrollbar-track { background: transparent; }
+    .feed::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .bubble {
+      max-width: 92%;
+      padding: 10px 14px;
+      border-radius: var(--radius);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      position: relative;
+      animation: fade-in 0.3s ease;
+      transition: border-color 0.2s;
+    }
+    .bubble:hover {
+      border-color: var(--border-glow);
+    }
+    .bubble.new-anim {
+      animation: slide-in 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .bubble-from {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 3px;
+    }
+    .bubble-subj {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--ink-1);
+      margin-bottom: 2px;
+    }
+    .bubble-body {
+      font-size: 11.5px;
+      color: var(--ink-2);
+      line-height: 1.45;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .bubble-meta {
+      font-size: 10px;
+      color: var(--ink-3);
+      margin-top: 5px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .bubble .sev {
+      font-size: 9px;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .sev-RED    { background: rgba(239,68,68,0.2); color: var(--red); }
+    .sev-AMBER  { background: rgba(245,158,11,0.2); color: var(--amber); }
+    .sev-YELLOW { background: rgba(234,179,8,0.18); color: #eab308; }
+    .sev-GREEN  { background: rgba(34,197,94,0.18); color: var(--green); }
+    .sev-BLUE   { background: rgba(59,130,246,0.18); color: var(--blue); }
+
+    .bubble-channel {
+      font-size: 9px;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+    .ch-hotline   { background: rgba(239,68,68,0.12); color: var(--red); }
+    .ch-broadcast { background: rgba(139,92,246,0.12); color: var(--violet); }
+    .ch-mail      { background: rgba(108,140,255,0.12); color: var(--accent); }
+
+    .feed-empty {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink-3);
+      font-size: 12px;
+      text-align: center;
+      padding: 40px;
+    }
+
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes slide-in {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── quick-launch buttons ── */
+    .quick-launch {
+      flex-shrink: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding: 10px 14px;
+      background: var(--bg-panel);
+      border-top: 1px solid var(--border);
+    }
+    .ql-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg-glass);
+      color: var(--ink-2);
+      font-size: 11.5px;
+      font-weight: 600;
+      font-family: var(--font);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .ql-btn:hover {
+      background: rgba(108,140,255,0.1);
+      border-color: var(--accent);
+      color: var(--ink-1);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(108,140,255,0.08);
+    }
+    .ql-btn .ico { font-size: 14px; }
+
+    /* ── command bar ── */
+    .cmd-bar {
+      flex-shrink: 0;
+      padding: 10px 14px 14px;
+      background: var(--bg-panel);
+      border-top: 1px solid var(--border);
+    }
+    .cmd-input-wrap {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .cmd-prefix {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--teal);
+      opacity: 0.7;
+      flex-shrink: 0;
+    }
+    .cmd-input {
+      flex: 1;
+      background: var(--bg-glass);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 9px 12px;
+      color: var(--ink-1);
+      font-family: var(--mono);
+      font-size: 12px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .cmd-input::placeholder {
+      color: var(--ink-3);
+    }
+    .cmd-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(108,140,255,0.1);
+    }
+    .cmd-send {
+      width: 36px; height: 36px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, var(--accent), var(--teal));
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .cmd-send:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 14px rgba(108,140,255,0.25);
+    }
+
+    /* ── STT Transcriber button ── */
+    .mic-btn {
+      width: 32px; height: 32px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-glass);
+      border: 1px solid var(--border);
+      color: var(--ink-2);
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .mic-btn:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: rgba(108,140,255,0.1);
+    }
+    .mic-btn.listening {
+      background: rgba(239, 68, 68, 0.25) !important;
+      border-color: var(--red) !important;
+      color: var(--red) !important;
+      animation: mic-pulse 1.2s infinite ease-in-out;
+    }
+    .mic-btn.unsupported {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    @keyframes mic-pulse {
+      0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
+      70% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
+
+    /* ── command output overlay ── */
+    .cmd-output {
+      margin-top: 8px;
+      padding: 10px 12px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--ink-2);
+      white-space: pre-wrap;
+      max-height: 160px;
+      overflow-y: auto;
+      display: none;
+      animation: fade-in 0.2s ease;
+    }
+    .cmd-output.visible { display: block; }
+    .cmd-output .ok  { color: var(--green); }
+    .cmd-output .err { color: var(--red); }
+    .cmd-output .info { color: var(--accent); }
+
+    /* ── refresh indicator ── */
+    .refresh-dot {
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--teal);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .refresh-dot.active {
+      opacity: 1;
+      animation: ping 0.6s ease-out;
+    }
+    @keyframes ping {
+      0%   { transform: scale(1); opacity: 1; }
+      100% { transform: scale(2.5); opacity: 0; }
+    }
+
+    /* ── scrollbar for whole body on mobile ── */
+    @media (max-height: 600px) {
+      body { overflow-y: auto; }
+    }
+
+    /* ── size toggle buttons ── */
+    .size-toggles {
+      display: flex;
+      gap: 3px;
+      background: var(--bg-glass);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2px;
+    }
+    .size-btn {
+      padding: 3px 8px;
+      font-size: 10px;
+      font-weight: 600;
+      font-family: var(--font);
+      color: var(--ink-3);
+      background: transparent;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.3px;
+    }
+    .size-btn:hover { color: var(--ink-2); }
+    .size-btn.active {
+      background: rgba(108,140,255,0.15);
+      color: var(--accent);
+    }
+
+    /* ── settings gear ── */
+    .gear-btn {
+      width: 28px; height: 28px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: transparent;
+      color: var(--ink-3);
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .gear-btn:hover { color: var(--ink-1); border-color: var(--accent); }
+    .gear-btn.open { color: var(--accent); background: rgba(108,140,255,0.1); }
+
+    /* ── settings panel ── */
+    .settings-panel {
+      display: none;
+      padding: 14px 16px;
+      background: var(--bg-panel);
+      border-bottom: 1px solid var(--border);
+      animation: fade-in 0.2s ease;
+    }
+    .settings-panel.visible { display: block; }
+    .settings-panel h3 {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--ink-3);
+      margin-bottom: 10px;
+    }
+    .setting-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 0;
+    }
+    .setting-row label {
+      font-size: 12px;
+      color: var(--ink-2);
+    }
+    .setting-row select,
+    .setting-row input[type="number"] {
+      background: var(--bg-glass);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--ink-1);
+      font-family: var(--font);
+      font-size: 11.5px;
+      padding: 4px 8px;
+      outline: none;
+    }
+    .setting-row select:focus,
+    .setting-row input:focus {
+      border-color: var(--accent);
+    }
+    .setting-row select { min-width: 130px; }
+    .setting-row input[type="number"] { width: 70px; text-align: center; }
+  </style>
+</head>
+<body>
+
+  <!-- Hotline Banner -->
+  <div class="hotline-bar sev-GREEN" id="hotlineBar">
+    ● HOTLINE GREEN — ALL CLEAR
+  </div>
+
+  <!-- Header -->
+  <header class="hud-header">
+    <span class="hud-brand">.nexus</span>
+    <div style="display:flex;align-items:center;gap:8px">
+      <div class="size-toggles">
+        <button class="size-btn active" data-size="1x" title="Phone (375px)">1x</button>
+        <button class="size-btn" data-size="2x" title="Tablet (780px)">2x</button>
+        <button class="size-btn" data-size="4x" title="Full width">4x</button>
+      </div>
+      <button class="gear-btn" id="gearBtn" title="Settings">&#9881;</button>
+      <span class="refresh-dot" id="refreshDot"></span>
+      <span class="hud-badge offline" id="connBadge">OFFLINE</span>
+    </div>
+  </header>
+
+  <!-- Settings Panel (hidden by default) -->
+  <div class="settings-panel" id="settingsPanel">
+    <h3>Operator Settings</h3>
+    <div class="setting-row">
+      <label>Auto-open HUD on launch</label>
+      <select id="setAutoOpen">
+        <option value="yes" selected>Yes (default)</option>
+        <option value="no">No</option>
+      </select>
+    </div>
+    <div class="setting-row">
+      <label>Poll interval (seconds)</label>
+      <input type="number" id="setPollSec" min="5" max="120" value="10">
+    </div>
+    <div class="setting-row">
+      <label>Default size</label>
+      <select id="setDefaultSize">
+        <option value="1x" selected>1x Phone</option>
+        <option value="2x">2x Tablet</option>
+        <option value="4x">4x Full</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Stats Strip -->
+  <div class="stats-strip" id="statsStrip">
+    <div class="stat-cell"><div class="stat-n" id="statThreads">—</div><div class="stat-l">Threads</div></div>
+    <div class="stat-cell"><div class="stat-n" id="statContacts">—</div><div class="stat-l">Contacts</div></div>
+    <div class="stat-cell"><div class="stat-n" id="statHotline">—</div><div class="stat-l">Hotline</div></div>
+    <div class="stat-cell"><div class="stat-n" id="statBroadcast">—</div><div class="stat-l">Broadcasts</div></div>
+  </div>
+
+  <!-- Presence Rail -->
+  <div class="presence-section">
+    <div class="presence-label">Registered Agents</div>
+    <div class="presence-row" id="presenceRow">
+      <div class="agent-chip"><span class="agent-dot human"></span> Loading…</div>
+    </div>
+  </div>
+
+  <!-- Activity Feed -->
+  <div class="feed" id="activityFeed">
+    <div class="feed-empty">
+      Connect to the local server to see live activity.<br><br>
+      <code style="color:var(--teal);font-family:var(--mono);font-size:11px">.\nexus.ps1 launch</code>
+    </div>
+  </div>
+
+  <!-- Quick Launch Buttons -->
+  <div class="quick-launch">
+    <a class="ql-btn" href="../console/" target="_blank"><span class="ico">&#9878;</span> Operator Console</a>
+    <a class="ql-btn" href="../" target="_blank"><span class="ico">&#127760;</span> Public Site</a>
+    <a class="ql-btn" href="../console/#governance" target="_blank"><span class="ico">&#9874;</span> Governance</a>
+    <a class="ql-btn" href="../console/#hotline" target="_blank"><span class="ico">&#9888;</span> Hotline Detail</a>
+  </div>
+
+  <!-- Command Bar -->
+  <div class="cmd-bar">
+    <div class="cmd-input-wrap">
+      <span class="cmd-prefix">.nexus/</span>
+      <input class="cmd-input" id="cmdInput" type="text" placeholder="status, hotline, contacts, help…" autocomplete="off" spellcheck="false">
+      <button class="mic-btn" id="micBtn" title="Speech-to-Text Transcriber (Click to speak)">&#127908;</button>
+      <button class="cmd-send" id="cmdSend" title="Run command">▶</button>
+    </div>
+    <div class="cmd-output" id="cmdOutput"></div>
+  </div>
+
+  <!-- STP Parser (shared with console) -->
+  <script src="../assets/js/stp-parser.js"></script>
+
+  <script>
+  // ═══════════════════════════════════════════════════════
+  // .nexus HUD — Live telemetry engine
+  // Same command vocabulary as CLI (nexus.ps1) and IDE chat
+  // ═══════════════════════════════════════════════════════
+  (function () {
+    "use strict";
+
+    var POLL_MS = 10000;
+    var hudSettings = loadHudSettings();
+    var pollTimer = null;
+    var state = {
+      live: false,
+      threads: [],
+      contacts: [],
+      hotlineEntries: [],
+      broadcastEntries: [],
+      lastFeedHash: "",
+      feedItems: []
+    };
+
+    function loadHudSettings() {
+      var defaults = { autoOpen: "yes", pollSec: 10, defaultSize: "1x" };
+      try {
+        var s = JSON.parse(localStorage.getItem("nexus.hud") || "{}");
+        return { autoOpen: s.autoOpen || defaults.autoOpen, pollSec: s.pollSec || defaults.pollSec, defaultSize: s.defaultSize || defaults.defaultSize };
+      } catch (e) { return defaults; }
+    }
+    function saveHudSettings() {
+      localStorage.setItem("nexus.hud", JSON.stringify(hudSettings));
+    }
+
+    // ── elements ──
+    var $hotlineBar   = document.getElementById("hotlineBar");
+    var $connBadge    = document.getElementById("connBadge");
+    var $refreshDot   = document.getElementById("refreshDot");
+    var $statThreads  = document.getElementById("statThreads");
+    var $statContacts = document.getElementById("statContacts");
+    var $statHotline  = document.getElementById("statHotline");
+    var $statBcast    = document.getElementById("statBroadcast");
+    var $presenceRow  = document.getElementById("presenceRow");
+    var $feed         = document.getElementById("activityFeed");
+    var $cmdInput     = document.getElementById("cmdInput");
+    var $cmdOutput    = document.getElementById("cmdOutput");
+
+    // ── data ──
+    function fetchText(url) {
+      return fetch(url, { cache: "no-store" }).then(function (r) {
+        if (!r.ok) throw new Error(r.status);
+        return r.text();
+      });
+    }
+
+    function probe() {
+      return fetch("/api/threads", { cache: "no-store" })
+        .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+        .then(function (list) { state.live = true; state.threads = list; })
+        .catch(function () { state.live = false; });
+    }
+
+    function esc(s) {
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+      });
+    }
+
+    // ── connection UI ──
+    function updateConn() {
+      if (state.live) {
+        $connBadge.className = "hud-badge live";
+        $connBadge.textContent = "LIVE";
+      } else {
+        $connBadge.className = "hud-badge offline";
+        $connBadge.textContent = "OFFLINE";
+      }
+    }
+
+    // ── hotline banner ──
+    function updateHotline() {
+      if (!state.live) return Promise.resolve();
+      return fetchText("/bridge/hotline.md").then(function (md) {
+        var msgs = (typeof STP !== "undefined" && STP.parseChannel) ? STP.parseChannel(md) : [];
+        state.hotlineEntries = msgs;
+        var last = msgs[msgs.length - 1] || {};
+        var sev = last.severity || "GREEN";
+        var subj = last.subject || "All clear";
+
+        $hotlineBar.className = "hotline-bar sev-" + sev;
+        $hotlineBar.textContent = "● HOTLINE " + sev + " — " + subj;
+        $statHotline.textContent = msgs.length;
+      }).catch(function () {});
+    }
+
+    // ── contacts / presence ──
+    function updatePresence() {
+      if (!state.live) return Promise.resolve();
+      return fetchText("/bridge/CONTACTS.md").then(function (md) {
+        var list = (typeof STP !== "undefined" && STP.parseContacts) ? STP.parseContacts(md) : [];
+        state.contacts = list;
+        $statContacts.textContent = list.length;
+
+        $presenceRow.innerHTML = list.map(function (c) {
+          var isHuman = c.role && c.role.toLowerCase().indexOf("founder") !== -1;
+          return '<div class="agent-chip"><span class="agent-dot' +
+            (isHuman ? ' human' : '') + '"></span>' + esc(c.handle) + '</div>';
+        }).join("");
+
+        if (list.length === 0) {
+          $presenceRow.innerHTML = '<div class="agent-chip">No contacts registered</div>';
+        }
+      }).catch(function () {});
+    }
+
+    // ── activity feed ──
+    function updateFeed() {
+      if (!state.live) return Promise.resolve();
+
+      return Promise.all([
+        fetchText("/bridge/hotline.md").catch(function () { return ""; }),
+        fetchText("/bridge/broadcast.md").catch(function () { return ""; })
+      ].concat(
+        state.threads.slice(0, 6).map(function (t) {
+          return fetchText(t.path).catch(function () { return ""; });
+        })
+      )).then(function (results) {
+        var items = [];
+        var hotMsgs = typeof STP !== "undefined" ? STP.parseChannel(results[0]) : [];
+        var bcMsgs  = typeof STP !== "undefined" ? STP.parseChannel(results[1]) : [];
+        state.broadcastEntries = bcMsgs;
+        $statBcast.textContent = bcMsgs.length;
+        $statThreads.textContent = state.threads.length;
+
+        // Tag and collect
+        hotMsgs.forEach(function (m) { m._channel = "hotline"; items.push(m); });
+        bcMsgs.forEach(function (m)  { m._channel = "broadcast"; items.push(m); });
+        for (var i = 2; i < results.length; i++) {
+          if (results[i]) {
+            var threadMsgs = typeof STP !== "undefined" ? STP.parseChannel(results[i]) : [];
+            threadMsgs.forEach(function (m) { m._channel = "mail"; items.push(m); });
+          }
+        }
+
+        // Sort by date (rough: most recent last) and take last 20
+        items = items.slice(-30);
+        items.reverse();
+        state.feedItems = items;
+
+        renderFeed(items.slice(0, 20));
+      }).catch(function () {});
+    }
+
+    function renderFeed(items) {
+      if (items.length === 0) {
+        $feed.innerHTML = '<div class="feed-empty">No bridge activity yet.</div>';
+        return;
+      }
+
+      $feed.innerHTML = items.map(function (m) {
+        var chClass = "ch-" + (m._channel || "mail");
+        var chLabel = (m._channel || "mail").toUpperCase();
+        var sevHtml = m.severity ? '<span class="sev sev-' + m.severity + '">' + m.severity + '</span>' : '';
+
+        return '<div class="bubble">' +
+          '<div class="bubble-from">' + esc(m.from || "Unknown") + '</div>' +
+          '<div class="bubble-subj">' + esc(m.subject || "(no subject)") + '</div>' +
+          (m.preview ? '<div class="bubble-body">' + esc(m.preview) + '</div>' : '') +
+          '<div class="bubble-meta">' +
+            '<span class="bubble-channel ' + chClass + '">' + chLabel + '</span>' +
+            sevHtml +
+            (m.date ? '<span>' + esc(m.date) + '</span>' : '') +
+          '</div></div>';
+      }).join("");
+    }
+
+    // ── command bar ──
+    var commands = {
+
+      help: function () {
+        return '<span class="info">.nexus/ command reference</span>\n' +
+          '─────────────────────────\n' +
+          'status     Bridge health summary\n' +
+          'hotline    Current hotline state\n' +
+          'contacts   Registered agents\n' +
+          'threads    Active agent threads\n' +
+          'broadcast  Latest broadcasts\n' +
+          'console    Open Operator Console\n' +
+          'site       Open public site\n' +
+          'clear      Clear output\n' +
+          'help       This reference\n' +
+          '─────────────────────────\n' +
+          '<span class="info">Same commands work in IDE chat\n& PowerShell: .\\nexus.ps1 help</span>';
+      },
+
+      status: function () {
+        if (!state.live) return '<span class="err">Not connected to bridge server.</span>';
+        var hot = state.hotlineEntries;
+        var lastHot = hot[hot.length - 1] || {};
+        var sev = lastHot.severity || "GREEN";
+        return '<span class="info">BRIDGE STATUS</span>\n' +
+          '─────────────────────────\n' +
+          'Hotline:    <span class="' + (sev === "GREEN" ? "ok" : "err") + '">[' + sev + ']</span> ' + esc(lastHot.subject || "Clear") + '\n' +
+          'Threads:    ' + state.threads.length + ' active\n' +
+          'Contacts:   ' + state.contacts.length + ' registered\n' +
+          'Broadcasts: ' + state.broadcastEntries.length + ' total\n' +
+          '─────────────────────────';
+      },
+
+      hotline: function () {
+        if (!state.live) return '<span class="err">Not connected.</span>';
+        var entries = state.hotlineEntries.slice(-5).reverse();
+        var out = '<span class="info">HOTLINE</span>\n─────────────────────────\n';
+        entries.forEach(function (e) {
+          var sev = e.severity || "";
+          var cls = (sev === "RED" || sev === "AMBER") ? "err" : "ok";
+          out += '<span class="' + cls + '">[' + sev + ']</span> ' + esc(e.subject || "") + '\n';
+        });
+        if (entries.length === 0) out += '<span class="ok">Hotline clear.</span>';
+        return out;
+      },
+
+      contacts: function () {
+        if (!state.live) return '<span class="err">Not connected.</span>';
+        var out = '<span class="info">REGISTERED CONTACTS</span>\n─────────────────────────\n';
+        state.contacts.forEach(function (c) {
+          out += '◉ ' + esc(c.handle) + '  <span class="info">' + esc(c.environment || "") + '</span>\n';
+        });
+        if (state.contacts.length === 0) out += 'No contacts registered.';
+        return out;
+      },
+
+      threads: function () {
+        if (!state.live) return '<span class="err">Not connected.</span>';
+        var out = '<span class="info">ACTIVE THREADS</span>\n─────────────────────────\n';
+        state.threads.forEach(function (t) {
+          out += '✉ ' + esc(t.name) + '\n';
+        });
+        if (state.threads.length === 0) out += 'No active threads.';
+        return out;
+      },
+
+      broadcast: function () {
+        if (!state.live) return '<span class="err">Not connected.</span>';
+        var recent = state.broadcastEntries.slice(-5).reverse();
+        var out = '<span class="info">BROADCASTS</span>\n─────────────────────────\n';
+        recent.forEach(function (m) {
+          out += '📣 ' + esc(m.subject || "(no subject)") + '\n';
+        });
+        if (recent.length === 0) out += 'No broadcasts.';
+        return out;
+      },
+
+      console: function () {
+        window.open("../console/", "_blank");
+        return '<span class="ok">Opened Operator Console.</span>';
+      },
+
+      site: function () {
+        window.open("../", "_blank");
+        return '<span class="ok">Opened public site.</span>';
+      },
+
+      clear: function () {
+        $cmdOutput.classList.remove("visible");
+        return null;
+      }
+    };
+
+    function showCmdOutput(text, type) {
+      var cls = type === "err" ? "err" : (type === "ok" ? "ok" : "info");
+      $cmdOutput.innerHTML = '<span class="' + cls + '">' + esc(text) + '</span>';
+      $cmdOutput.classList.add("visible");
+    }
+
+    function runCommand(raw) {
+      var cmd = raw.trim().toLowerCase();
+      // Strip .nexus/ prefix
+      if (cmd.indexOf(".nexus/") === 0) cmd = cmd.substring(7).trim();
+      if (cmd.indexOf(".nexus ") === 0) cmd = cmd.substring(7).trim();
+      if (!cmd) return;
+
+      if (commands[cmd]) {
+        var result = commands[cmd]();
+        if (result === null) return;
+        $cmdOutput.innerHTML = result;
+        $cmdOutput.classList.add("visible");
+      } else {
+        $cmdOutput.innerHTML = '<span class="err">Unknown command: ' + esc(cmd) + '</span>\nType <span class="info">help</span> for available commands.';
+        $cmdOutput.classList.add("visible");
+      }
+    }
+
+    $cmdInput.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        runCommand($cmdInput.value);
+        $cmdInput.value = "";
+      }
+      if (e.key === "Escape") {
+        $cmdOutput.classList.remove("visible");
+      }
+    });
+
+    document.getElementById("cmdSend").addEventListener("click", function () {
+      runCommand($cmdInput.value);
+      $cmdInput.value = "";
+    });
+
+    // ── refresh cycle ──
+    function flashRefresh() {
+      $refreshDot.classList.add("active");
+      setTimeout(function () { $refreshDot.classList.remove("active"); }, 600);
+    }
+
+    function fullRefresh() {
+      flashRefresh();
+      return probe().then(function () {
+        updateConn();
+        if (state.live) {
+          return Promise.all([updateHotline(), updatePresence(), updateFeed()]);
+        }
+      }).catch(function () {});
+    }
+
+    // -- init --
+    POLL_MS = hudSettings.pollSec * 1000;
+    applySize(hudSettings.defaultSize);
+    restoreSettingsUI();
+
+    fullRefresh();
+    pollTimer = setInterval(fullRefresh, POLL_MS);
+
+    // Focus command input on any keypress when nothing else is focused
+    document.addEventListener("keydown", function (e) {
+      if (document.activeElement === $cmdInput) return;
+      if (document.activeElement && document.activeElement.tagName === "SELECT") return;
+      if (document.activeElement && document.activeElement.tagName === "INPUT") return;
+      if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        $cmdInput.focus();
+      }
+    });
+
+    // -- size toggles --
+    function applySize(size) {
+      document.body.classList.remove("size-2x", "size-4x");
+      if (size === "2x") document.body.classList.add("size-2x");
+      if (size === "4x") document.body.classList.add("size-4x");
+      document.querySelectorAll(".size-btn").forEach(function (b) {
+        b.classList.toggle("active", b.getAttribute("data-size") === size);
+      });
+    }
+    document.querySelectorAll(".size-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var size = btn.getAttribute("data-size");
+        applySize(size);
+        hudSettings.defaultSize = size;
+        saveHudSettings();
+        // Also update the settings dropdown
+        var sel = document.getElementById("setDefaultSize");
+        if (sel) sel.value = size;
+      });
+    });
+
+    // -- settings gear --
+    var $gearBtn = document.getElementById("gearBtn");
+    var $settingsPanel = document.getElementById("settingsPanel");
+    $gearBtn.addEventListener("click", function () {
+      $gearBtn.classList.toggle("open");
+      $settingsPanel.classList.toggle("visible");
+    });
+
+    function restoreSettingsUI() {
+      var aoSel = document.getElementById("setAutoOpen");
+      var psSel = document.getElementById("setPollSec");
+      var dsSel = document.getElementById("setDefaultSize");
+      if (aoSel) aoSel.value = hudSettings.autoOpen;
+      if (psSel) psSel.value = hudSettings.pollSec;
+      if (dsSel) dsSel.value = hudSettings.defaultSize;
+    }
+
+    // Auto-save on settings change
+    document.getElementById("setAutoOpen").addEventListener("change", function () {
+      hudSettings.autoOpen = this.value;
+      saveHudSettings();
+    });
+    document.getElementById("setPollSec").addEventListener("change", function () {
+      var v = Math.max(5, Math.min(120, parseInt(this.value, 10) || 10));
+      this.value = v;
+      hudSettings.pollSec = v;
+      POLL_MS = v * 1000;
+      if (pollTimer) clearInterval(pollTimer);
+      pollTimer = setInterval(fullRefresh, POLL_MS);
+      saveHudSettings();
+    });
+    document.getElementById("setDefaultSize").addEventListener("change", function () {
+      hudSettings.defaultSize = this.value;
+      applySize(this.value);
+      saveHudSettings();
+      document.querySelectorAll(".size-btn").forEach(function (b) {
+        b.classList.toggle("active", b.getAttribute("data-size") === hudSettings.defaultSize);
+      });
+    });
+
+    // -- STT Transcriber Engine (Web Speech API) --
+    var $micBtn = document.getElementById("micBtn");
+    var recognition = null;
+    var isListening = false;
+    var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+      if ($micBtn) {
+        $micBtn.classList.add("unsupported");
+        $micBtn.title = "Speech recognition not supported in this browser";
+      }
+    } else {
+      recognition = new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = true;
+      recognition.lang = "en-US";
+
+      recognition.onstart = function () {
+        isListening = true;
+        $micBtn.classList.add("listening");
+        $micBtn.title = "Listening... Speak your command (Click to stop)";
+        showCmdOutput("[STT Active] Listening...", "info");
+      };
+
+      recognition.onresult = function (event) {
+        var transcript = "";
+        for (var i = event.resultIndex; i < event.results.length; i++) {
+          transcript += event.results[i][0].transcript;
+        }
+        var cleanText = transcript.trim();
+        $cmdInput.value = cleanText;
+
+        // Auto-strip prefix if spoken ("nexus status" -> "status")
+        var lower = cleanText.toLowerCase();
+        if (lower.startsWith("nexus ") || lower.startsWith("dot nexus ")) {
+          cleanText = cleanText.replace(/^(nexus|dot nexus)\s+/i, "");
+          $cmdInput.value = cleanText;
+        }
+
+        showCmdOutput("[STT Live] " + cleanText, "info");
+      };
+
+      recognition.onerror = function (event) {
+        isListening = false;
+        $micBtn.classList.remove("listening");
+        $micBtn.title = "Speech-to-Text Transcriber (Click to speak)";
+        if (event.error !== "no-speech") {
+          showCmdOutput("[STT Error] " + event.error, "err");
+        }
+      };
+
+      recognition.onend = function () {
+        isListening = false;
+        $micBtn.classList.remove("listening");
+        $micBtn.title = "Speech-to-Text Transcriber (Click to speak)";
+        if ($cmdInput.value.trim().length > 0) {
+          showCmdOutput("[STT Complete] Executing: " + $cmdInput.value, "ok");
+          runCommand($cmdInput.value);
+        }
+      };
+
+      if ($micBtn) {
+        $micBtn.addEventListener("click", function () {
+          if (isListening) {
+            recognition.stop();
+          } else {
+            try {
+              $cmdInput.value = "";
+              recognition.start();
+            } catch (e) {
+              showCmdOutput("[STT Failed] " + e.message, "err");
+            }
+          }
+        });
+      }
+    }
+
+  })();
+  </script>
+
+</body>
+</html>

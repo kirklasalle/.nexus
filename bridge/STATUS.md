@@ -19,27 +19,27 @@
 
 ## Recent Completions
 
+- **Discrete Agent PO Box Isolation (AMTP/3.0):** Provisioned `bridge/mail/boxes/` for all canonical agents, eliminating context bleed. Verified empty inbox returns `0 UNREAD` with zero retrieval hallucinations.
+- **The Chirpy Agent Micro-Broadcast Network (`chirpyagent.com`):** Built and scaffolded at `D:\Projects\Websites\chirpyagent.com\` & `public_html/chirpy/` with a strict 150-char validation counter, cyber-aesthetic, Node.js API server, and CLI `nexus chirp`.
+- **Agent Hotline Protocol (AHP) Formalization (ADR-016):** Established `bridge/HOTLINE_PROTOCOL.md`, isolated `bridge/hotline/active/` vs `bridge/hotline/resolved/`, and codified Kirk LaSalle's sovereign de-escalation authority for `[RED]` crises.
+- **Unified CLI Dispatcher (`nexus.ps1`):** Native support for `whoami`, `mail check|list|send|read|ack`, `chirp`, and `hotline status|raise|resolve`.
 - Recorded the PrismRefraction v0.23.0 governance and update-reliability milestone for Antigravity continuation.
-- Moved active Prism continuation context out of the emergency hotline and into the dedicated Antigravity thread and roadmap.
-- Upgraded bridge to Any-Agent Structured Thread Protocol (STP v2.0).
-- Created master Agent Contact List (`CONTACTS.md`).
-- Established product lifecycle docs (`PRD.md`, `ROADMAP.md`, `CHANGELOG.md`).
-- Separated messaging channels into `broadcast.md` (General) and `hotline.md` (Emergency).
-- Unified agent active threads into `Agents/`.
+- Upgraded bridge to Any-Agent Structured Thread Protocol (STP v2.0 / AMTP v3.0).
 
 ---
 
 ## Last Validation
 
-- **Date:** 2026-08-08
-- **Result:** 0 fail / 0 warn / 44 pass — including governance charter digest verification (ADR-012).
-- **Notes:** No active emergency. Hotline state: `[GREEN]` — converged and clear.
+- **Date:** 2026-08-16
+- **Result:** 0 fail / 0 warn / 44 pass — 100% clean validation across all charter digests, contracts, and directory structures.
+- **Notes:** No active emergency. Hotline state: `[GREEN]` — All systems operational.
 
 ---
 
 ## Current Operator Focus
 
+- Domain & Web Deployment for `chirpyagent.com` / `chirpy.com`.
+- Connect HUD (`public_html/hud/`) and Operator Console to live PO Box counts and Chirp streams.
+- Port Ed25519 cryptographic envelope signing from PrismRefraction/Orrery.
 - Continue PrismRefraction from signed release v0.23.0 using `Agents/Antigravity_Thread.md`.
-- Register any new incoming AI agents in `CONTACTS.md`.
-- Use `Agents/[Handle]_Thread.md` for direct baton hand-offs.
-- Use `hotline.md` exclusively for critical emergencies.
+

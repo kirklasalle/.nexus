@@ -29,10 +29,12 @@ Use this file to track active bridge work. Keep items short, current, and statef
 | NB-026 | Archive legacy v1.0 thread folders (NX-07) | VS_Code_Copilot | Done | High | `bridge/Antigravity/` + `bridge/VS_Code/` threads moved to `Agents/Archive/`; pointer stubs left in place. |
 | NB-027 | First monthly rollover + fix archiver backtick bug (NX-09) | Nexus | Open | Medium | Fix double-quoted template strings in `New-BridgeArchive.ps1` before first run; add Pester test. |
 | NB-028 | Validator v2.2 (NX-05) | VS_Code_Copilot | Open | High | Add encoding check, hotline-divergence hash check, legacy-dir rule, stale-contact warning; Pester suite; CI. |
-| NB-029 | STP v3.0 YAML frontmatter + backfill converter (NX-04) | Antigravity | Open | High | The #1 automation unlock; schema in audit §9.3. |
+| NB-029 | STP v3.0 / AMTP Mailbox Envelopes (PO Box Isolation) | Antigravity | Done | High | Discrete PO Box folders created (`bridge/mail/boxes/`), zero context bleed verified. |
 | NB-030 | nexusd service skeleton (SQLite WAL + ledger + projections) | VS_Code_Copilot | Open | High | TypeScript + official MCP SDK; dual-write reconciliation per audit §9.2. |
-| NB-031 | Chirps channel (≤150 chars, server-enforced) | VS_Code_Copilot | Open | High | Audit §9.3; PRD G7. The Chirpys' pipeline. |
+| NB-031 | Chirps channel (≤150 chars, server-enforced) & chirpyagent.com | Antigravity | Done | High | Deployed at `D:\Projects\Websites\chirpyagent.com\` & `public_html/chirpy/` with REST API & CLI `nexus chirp`. |
 | NB-032 | Nexus Boards (forums/BBS) | Antigravity | Open | Medium | Seed boards + RFC→ADR pipeline; PRD G8. |
-| NB-033 | Operator front-end cockpit | Antigravity | Open | Medium | 3-pane mail, Chirp ticker, presence rail, hotline banner; PRD G11. |
+| NB-033 | Operator front-end cockpit / HUD Mail & Chirp integration | Antigravity | In Progress | Medium | Connect HUD/Console to live PO Box counts, Chirp ticker, and active hotline queue. |
 | NB-034 | v4.0 trust layer (Ed25519 + hash-chained ledger + charter runtime binding) | VS_Code_Copilot | Open | Medium | Port Prism/Orrery patterns; PRD G13. |
 | NB-035 | A2A Agent Card export + MCP Registry publication | Nexus | Open | Low | Standards alignment per market research §6. |
+| NB-036 | Agent Hotline Protocol (AHP) Formalization (ADR-016) | Antigravity | Done | Critical | Active/Resolved queue isolation, stop-the-line preemption, and sovereign de-escalation gate. |
+

@@ -79,8 +79,9 @@ $listener.Start()
 
 Write-Host ""
 Write-Host "  .nexus web is LIVE (read-only)" -ForegroundColor Cyan
-Write-Host "  Public site      : $prefix" -ForegroundColor Green
+Write-Host "  Operator HUD     : ${prefix}hud/" -ForegroundColor Green
 Write-Host "  Operator Console : ${prefix}console/" -ForegroundColor Green
+Write-Host "  Public site      : $prefix" -ForegroundColor Green
 Write-Host "  Bridge (live)    : ${prefix}bridge/STATUS.md" -ForegroundColor DarkGray
 Write-Host "  Stop with Ctrl+C" -ForegroundColor DarkGray
 Write-Host ""
@@ -106,6 +107,51 @@ try {
                 $json = ConvertTo-Json -InputObject $threads -Compress
                 if ($threads.Count -eq 1) { $json = "[$json]" }
                 if ($threads.Count -eq 0) { $json = "[]" }
+                Send-Text -Response $res -Text $json -ContentType "application/json; charset=utf-8"
+                continue
+            }
+
+            # /api/pulse — compact health snapshot for the HUD
+            if ($path -eq "/api/pulse") {
+                $agentsDir = Join-Path $bridgeRoot "Agents"
+                $threadCount = @(Get-ChildItem -Path $agentsDir -Filter "*_Thread.md" -File -ErrorAction SilentlyContinue).Count
+                $hotlinePath = Join-Path $bridgeRoot "hotline.md"
+                $hotSev = "GREEN"
+                if (Test-Path $hotlinePath) {
+                    $hotContent = Get-Content $hotlinePath -Raw -Encoding UTF8
+                    $sevMatches = [regex]::Matches($hotContent, '\[(RED|AMBER|YELLOW|GREEN|BLUE)\]')
+                    if ($sevMatches.Count -gt 0) { $hotSev = $sevMatches[$sevMatches.Count - 1].Groups[1].Value }
+                }
+                $contactsPath = Join-Path $bridgeRoot "CONTACTS.md"
+                $contactCount = 0
+                if (Test-Path $contactsPath) {
+                    $contactCount = ([regex]::Matches((Get-Content $contactsPath -Raw -Encoding UTF8), '(?m)^\|\s*\*\*')).Count
+                }
+                $pulse = @{
+                    threads = $threadCount
+                    contacts = $contactCount
+                    hotline = $hotSev
+                    uptime = [int](([DateTime]::UtcNow - $listener.TimeoutManager.MinSendBytesPerSecond).TotalSeconds)
+                    ts = [DateTime]::UtcNow.ToString("o")
+                } | ConvertTo-Json -Compress
+                Send-Text -Response $res -Text $pulse -ContentType "application/json; charset=utf-8"
+                continue
+            }
+
+            if ($path -eq "/api/chirps") {
+                $chirpsFile = Join-Path $platformRoot "bridge\mail\chirps.jsonl"
+                $chirpsList = @()
+                if (Test-Path $chirpsFile) {
+                    $lines = Get-Content $chirpsFile -Encoding UTF8
+                    foreach ($line in $lines) {
+                        if ($line.Trim()) {
+                            try { $chirpsList += ($line | ConvertFrom-Json) } catch {}
+                        }
+                    }
+                }
+                $json = ConvertTo-Json -InputObject $chirpsList -Compress
+                if ($chirpsList.Count -eq 1) { $json = "[$json]" }
+                if ($chirpsList.Count -eq 0) { $json = "[]" }
                 Send-Text -Response $res -Text $json -ContentType "application/json; charset=utf-8"
                 continue
             }
@@ -137,9 +183,30 @@ try {
                 continue
             }
 
+            if ($path -eq "/chirpy" -or $path.StartsWith("/chirpy/")) {
+                $chirpyCanonicalRoot = "D:\Projects\Websites\chirpyagent.com"
+                $rel = if ($path -eq "/chirpy" -or $path -eq "/chirpy/") { "index.html" } else { $path.Substring(8).TrimStart("/") }
+                $full = Resolve-Safe -Base $chirpyCanonicalRoot -Relative $rel
+                if ($full -and (Test-Path $full -PathType Container)) { $full = Join-Path $full "index.html" }
+                if ($full -and (Test-Path $full)) {
+                    Send-File -Response $res -FullPath $full
+                } else {
+                    Send-Text -Response $res -Text "404 Not Found" -Code 404
+                }
+                continue
+            }
+
             # static site
             $rel = $path.TrimStart("/")
-            if ($rel -eq "") { $rel = "index.html" }
+            if ($rel -eq "" -or $rel -eq "index.html") {
+                $nexusAgentRoot = "D:\Projects\Websites\nexusagent.com"
+                $nexusIndex = Join-Path $nexusAgentRoot "index.html"
+                if (Test-Path $nexusIndex) {
+                    Send-File -Response $res -FullPath $nexusIndex
+                    continue
+                }
+                $rel = "index.html"
+            }
             $full = Resolve-Safe -Base $webRoot -Relative $rel
             if ($full -and (Test-Path $full -PathType Container)) { $full = Join-Path $full "index.html" }
             if ($full) {

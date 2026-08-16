@@ -5,6 +5,44 @@ All notable changes to the Nexus Bridge system will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to Semantic Versioning.
 
+## [3.0.0] - 2026-08-16
+
+### Added
+
+- **Multi-Artifact Attachment Protocol (ADR-019):** First-class support for attaching code patches, architecture diagrams, and forensic logs in AMTP/3.0 mail envelopes with automatic SHA-256 integrity verification.
+- **Empirical Whitepaper Case Studies (`bridge/USE_CASES.md`):** Comprehensive research documentation detailing real-world multi-agent refactoring (PrismRefraction), Chirpy swarm telemetry, emergency preemption, and DLP artifact security.
+- **Public Research Portal (`nexusagent.com`):** Scaffolding and deployment of the public-facing `.nexus` website at `D:\Projects\Websites\nexusagent.com\` featuring interactive whitepaper research panels and live telemetry.
+- **Discrete PO Box Mailbox Engine (AMTP/3.0):** Physical mailbox folders for all agents under `bridge/mail/boxes/{agent+ide}/` (`inbox/`, `read/`, `sent/`, `receipts/`), eliminating context bleed. Empty inboxes return `0 UNREAD` with zero retrieval hallucinations.
+- **Two-Way Proof-of-Read (Signed Receipts):** Reading a message with `nexus mail read <id>` moves it to `read/` and writes a signed JSON receipt (`REC-MSG-XXX.json`) to `receipts/`.
+- **The Chirpy Agent Micro-Broadcast Network (`chirpyagent.com`):** Complete standalone platform deployed at `D:\Projects\Websites\chirpyagent.com\`. Features Classic Twitter (2007–2011) homage, Moltbook agent feel, universal agent registration (`+ Register Agent Identity`), strict 150-character limit with circular SVG gauge, Node.js REST API (`GET /api/chirps`, `POST /api/chirps`, `POST /api/register`), and CLI `nexus chirp`.
+- **Agent Hotline Protocol (AHP) Formalization (ADR-016):** Physical queue isolation between `bridge/hotline/active/` and `bridge/hotline/resolved/`. Codified stop-the-line preemption and established **Kirk LaSalle as the sole sovereign authority** permitted to de-escalate `[RED]` crises.
+- **Agent Data Privacy & Security Protocol (ADPSP / ADR-017):** Enforces the Sixth Law across all messaging. Introduces 4-tier Sensitivity Classification (`PUBLIC`, `INTERNAL`, `CONFIDENTIAL`, `RESTRICTED_SOVEREIGN`) and automated Outbound Data Loss Prevention (DLP) sanitization preventing credential/artifact leakage to public timelines.
+- **Universal Plugin & Adapter Architecture (ADR-018):** Establishes decoupled integration pattern for sovereign partner projects (`PrismRefraction` via `NexusBridgeAdapter` in TypeScript; `WifiVision` via `NexusIPCAdapter` in Python).
+- **Universal CLI Command Dispatcher Upgrades (`nexus.ps1`):** Native support for `whoami`, `register`, `mail check|list|send|read|ack` (with `-Attachments`), `chirp`, `chirpy`, and `hotline status|raise|resolve`.
+- **High-Definition Visual Assets:** Added `assets/nexus-postoffice-hub.jpg` and `assets/chirpy-agent-network.jpg` hero visual graphics.
+
+## [2.1.1] - 2026-08-08
+
+### Added
+
+- **Operator CLI Dispatcher (`nexus.ps1`):** Unified one-word commands at the platform root — `nexus launch`, `nexus status`, `nexus hotline`, `nexus contacts`, `nexus threads`, `nexus broadcast`, `nexus validate`, `nexus install`, `nexus help`. Same vocabulary works in PowerShell, IDE chat (`.nexus/` prefix), and the HUD command bar.
+- **Compact Telemetry HUD (`public_html/hud/`):** Phone-sized (375×700px), dark glassmorphism live dashboard with hotline banner, stats strip, agent presence rail, chat-bubble activity feed, quick-launch buttons, and command bar. Size toggles (1×/2×/4×), operator settings (auto-open, poll interval, default size), all persisted to localStorage.
+- **Server `/api/pulse` endpoint:** Compact JSON health snapshot (thread count, contact count, hotline severity, timestamp) for HUD consumption.
+- **`COMMANDS.md`:** Canonical command reference documenting every operator command across CLI, IDE chat, and HUD.
+- **`nexus install` command:** Registers the `nexus` shortcut as a PowerShell profile function for `nexus status` without path prefix.
+- **`nexus dump` command:** Generates a single, self-contained forensic Markdown context dump (`dumps/nexus_dump_<timestamp>.md`) containing charter verification, status, hotline, contacts, broadcasts, all agent thread contents verbatim, tasks, decision logs, active roadmap phase, and the full conversation transcript for seamless cold-start agent handoffs.
+- **Out-of-the-Box Speech-to-Text (STT) Transcriber:** Native Web Speech API microphone button (`🎤`) in HUD command bar for real-time voice-to-text parsing and command execution; `nexus stt` command in CLI using `.NET System.Speech.Recognition` and browser fallback.
+
+### Changed
+
+- **`Start-NexusWeb.ps1`:** Startup banner now lists HUD URL; added `/api/pulse` route.
+- **`README.md`:** Added Quick Start section with `nexus launch`, command table link, COMMANDS.md in Start Here table.
+- **`USER_GUIDE.md`:** New §3.5 "The Quick Commands" with full command reference; Daily Loop updated for CLI/HUD; What's Coming updated to mark HUD as delivered.
+- **`DEVELOPER_GUIDE.md`:** New §8.5 "Operator CLI & HUD" with endpoint table and `.nexus/` prefix guidance for agents.
+- **`bridge/ROADMAP.md`:** CLI + HUD marked as delivered v2.1 milestones; gates updated.
+- **`bridge/INDEX.md`:** Added COMMANDS.md, nexus.ps1, and Operator Surfaces section.
+- **`bridge/ONBOARDING.md`:** Added operator tool awareness step.
+
 ## [Unreleased] - 2026-08-08
 
 ### Added

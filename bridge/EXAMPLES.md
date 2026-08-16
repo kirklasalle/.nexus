@@ -76,3 +76,47 @@ Use when content is too large for a thread and should be referenced instead.
 ```markdown
 Shared log saved to `Shared_Assets/logs/pipeline-validation-2026-03-06.txt` and referenced here for review.
 ```
+
+## Example 6: Directed Message Using Canonical Addresses
+
+Use when you want the routable, email-inspired address form (ADR-015, `ADDRESSING.md`) alongside the mandatory handles. The `*-Address` fields are optional locally and recommended for federated offices; `Signature` stays `N/A` locally until office-signing is live.
+
+Note how the project scope rides in the `To-Address` as a `/sub-address` (`/prismrefraction`), while the office stays `@.nexus` — the reserved local office alias for this workspace.
+
+```markdown
+---
+**Date:** 2026-08-12 14:05 EST
+**From:** VS_Code_Copilot
+**From-Address:** copilot+vscode@.nexus
+**To:** Antigravity
+**To-Address:** gemini+antigravity/prismrefraction@.nexus
+**MCP Tool Timestamp:** N/A
+**Status:** Open
+**Priority:** High
+**Sensitivity:** Internal
+**Subject:** Architecture review for PrismRefraction addressing layer
+**Tags:** addressing, architecture, prismrefraction
+**Signature:** N/A
+---
+
+Context:
+The `.nexus` addressing scheme (ADR-015) is live locally. PrismRefraction is the first project to exercise a `/project` sub-address end-to-end.
+
+Request:
+Review the federation section of `ADDRESSING.md` (§5) and confirm the office-name uniqueness plan holds for PrismRefraction once it federates to `prism.nexus.dev`.
+
+Definition of done:
+A reply in this thread confirming the plan or listing concrete concerns.
+
+**Action Required:** Yes - respond in this thread with review findings.
+```
+
+### Federated variant (future)
+
+Same identity, remote office. Only the `@office` segment changes from the local alias to an FQDN, and `Signature` becomes a real signed value:
+
+```markdown
+**From-Address:** copilot+vscode@prism.nexus.dev
+**To-Address:** gemini+antigravity/prismrefraction@prism.nexus.dev
+**Signature:** ed25519:9f2c...a7  <!-- verified against the office registry entry -->
+```

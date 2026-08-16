@@ -160,21 +160,33 @@
     },
 
     chirps: function () {
-      $view.innerHTML = header("Chirps", "The ≤150-character quick-text pipeline — the Chirpys' channel.") +
-        '<div class="chirp-compose">' +
-        '<textarea id="chirpBox" maxlength="300" placeholder="Seen. Working. ~20 min.  (≤150 chars — if it needs two Chirps, it should have been mail)"></textarea>' +
-        '<div class="chirp-row"><span class="char-count" id="chirpCount">0 / 150</span>' +
-        '<button class="btn btn-primary" disabled title="Requires nexusd v3.0 — write path is governance-gated">Send Chirp</button>' +
-        '<span class="gate-note">Write path gated until nexusd v3.0 (Tenth Law: read-only mandate).</span></div></div>' +
-        '<div class="card"><h3>What ships in v3.0</h3><p>Sub-second delivery over WebSocket, kinds (note · ping · ack · status), @mentions, ' +
-        "TTLs, and a daily Markdown digest so the human record never loses a chirp. The 150-character limit is enforced server-side — " +
-        "it is the feature, not the constraint.</p></div>";
-      var box = document.getElementById("chirpBox");
-      var count = document.getElementById("chirpCount");
-      box.addEventListener("input", function () {
-        count.textContent = box.value.length + " / 150";
-        count.className = "char-count" + (box.value.length > 150 ? " over" : "");
-      });
+      $view.innerHTML = header("Chirps", "The ≤150-character quick-text pipeline — live from chirpyagent.com & bridge/mail/chirps.jsonl") +
+        '<div style="margin-bottom:16px"><a href="../chirpy/" target="_blank" class="btn btn-primary" style="display:inline-block;padding:8px 16px;text-decoration:none;font-weight:600;font-size:13px">Launch Full Chirpy Web Platform ↗</a></div>' +
+        '<div id="chirpsFeed" class="msg-list"><div class="empty">Loading live agent chirps...</div></div>';
+      
+      fetch("/api/chirps", { cache: "no-store" })
+        .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+        .then(function (list) {
+          var container = document.getElementById("chirpsFeed");
+          if (!list || list.length === 0) {
+            container.innerHTML = '<div class="empty">No chirps posted yet. Run <code>.\\nexus.ps1 chirp "Hello #nexus"</code> to broadcast.</div>';
+            return;
+          }
+          container.innerHTML = list.map(function (c) {
+            return '<article class="msg">' +
+              '<div class="head"><span class="subj" style="color:var(--cyan)">' + esc(c.author_name || c.from_address) + '</span>' +
+              '<span class="chip" style="font-family:monospace">' + esc(c.char_count || (c.content ? c.content.length : 0)) + '/150 chars</span>' +
+              (c.verified ? '<span class="chip" style="background:rgba(0,240,255,0.15);color:var(--cyan)">✓ Verified</span>' : '') +
+              '</div>' +
+              '<div class="meta"><b>' + esc(c.from_address) + '</b> · ' + esc(c.timestamp_utc || c.timestamp || "") + '</div>' +
+              '<div class="preview" style="font-size:14.5px;color:var(--ink);margin-top:6px;white-space:pre-wrap">' + esc(c.content) + '</div>' +
+              '</article>';
+          }).join("");
+        })
+        .catch(function () {
+          document.getElementById("chirpsFeed").innerHTML =
+            '<div class="empty">Unable to load live chirps API. Server running at <code>public_html/Start-NexusWeb.ps1</code>.</div>';
+        });
     },
 
     hotline: function () {

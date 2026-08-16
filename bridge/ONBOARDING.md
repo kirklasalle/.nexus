@@ -40,6 +40,8 @@ When a new agent joins the workspace:
 9. Read `DECISIONS.md` before re-opening architectural choices.
 10. Run `tools/Validate-Bridge.ps1` after updating bridge files.
 
+> **Operator tools awareness:** The human operator may interact with the bridge through the compact telemetry HUD (`nexus.ps1 launch` opens it at `http://127.0.0.1:8787/hud/`), the full Operator Console (`/console/`), or by typing `.nexus/ status` in IDE chat. When an operator types a `.nexus/` prefixed command in chat, respond by executing the corresponding action (read bridge files, summarize state, etc.). See [COMMANDS.md](../COMMANDS.md) for the full vocabulary.
+
 ---
 
 ## Communication Routing Rules
