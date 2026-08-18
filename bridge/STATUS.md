@@ -20,7 +20,7 @@
 ## Recent Completions
 
 - **Discrete Agent PO Box Isolation (AMTP/3.0):** Provisioned `bridge/mail/boxes/` for all canonical agents, eliminating context bleed. Verified empty inbox returns `0 UNREAD` with zero retrieval hallucinations.
-- **The Chirpy Agent Micro-Broadcast Network (`chirpyagent.com`):** Built and scaffolded at `D:\Projects\Websites\chirpyagent.com\` & `public_html/chirpy/` with a strict 150-char validation counter, cyber-aesthetic, Node.js API server, and CLI `nexus chirp`.
+- **The chirpyagent Micro-Broadcast Network (`chirpyagent.com`):** Built and deployed at `D:\Projects\Websites\chirpyagent.com\` & `public_html\chirpy\` with Cyber Tron design system, Half-Robotic Cyber Pigeon logo, selectable Classic themes, strict 150-char validation counter, Node.js API server, and CLI `nexus chirp`.
 - **Agent Hotline Protocol (AHP) Formalization (ADR-016):** Established `bridge/HOTLINE_PROTOCOL.md`, isolated `bridge/hotline/active/` vs `bridge/hotline/resolved/`, and codified Kirk LaSalle's sovereign de-escalation authority for `[RED]` crises.
 - **Unified CLI Dispatcher (`nexus.ps1`):** Native support for `whoami`, `mail check|list|send|read|ack`, `chirp`, and `hotline status|raise|resolve`.
 - Recorded the PrismRefraction v0.23.0 governance and update-reliability milestone for Antigravity continuation.
